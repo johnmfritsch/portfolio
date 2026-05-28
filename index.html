@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>John Fritsch | IT Portfolio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    header {
+      background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%);
+      border-bottom: 2px solid #2d7dd2;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+    header h1 { font-size: 2.4rem; font-weight: 700; color: #f0f4f8; }
+    header .tagline {
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+      color: #2d7dd2;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+    header .summary {
+      margin: 1.2rem auto 0;
+      max-width: 700px;
+      font-size: 0.95rem;
+      color: #94a3b8;
+    }
+    .contact-links {
+      margin-top: 1.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .contact-links a {
+      color: #2d7dd2;
+      text-decoration: none;
+      font-size: 0.9rem;
+      border: 1px solid #2d7dd2;
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .contact-links a:hover { background: #2d7dd220; }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 1000px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+
+    section { margin-bottom: 3.5rem; }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: #f0f4f8;
+      border-bottom: 1px solid #2d3748;
+      padding-bottom: 0.5rem;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Skills grid ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .skill-category h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #2d7dd2;
+      margin-bottom: 0.5rem;
+    }
+    .skill-category ul { list-style: none; }
+    .skill-category li {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      padding: 0.15rem 0;
+    }
+    .skill-category li::before { content: "› "; color: #2d7dd2; }
+
+    /* ── Project cards ── */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: #1a1f2e;
+      border: 1px solid #2d3748;
+      border-radius: 8px;
+      padding: 1.5rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover { border-color: #2d7dd2; transform: translateY(-2px); }
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .card-icon {
+      font-size: 1.6rem;
+      width: 2.5rem;
+      text-align: center;
+    }
+    .card h3 { font-size: 1.1rem; color: #f0f4f8; }
+    .card .card-type {
+      font-size: 0.75rem;
+      color: #2d7dd2;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+    .card p { font-size: 0.9rem; color: #94a3b8; margin-bottom: 1rem; }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tag {
+      background: #0f1117;
+      border: 1px solid #2d3748;
+      color: #64748b;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+    }
+    .card-link {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      color: #2d7dd2;
+      text-decoration: none;
+    }
+    .card-link:hover { text-decoration: underline; }
+
+    /* ── Infrastructure section ── */
+    .infra-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+    }
+    .infra-item {
+      background: #1a1f2e;
+      border: 1px solid #2d3748;
+      border-radius: 6px;
+      padding: 1rem 1.2rem;
+    }
+    .infra-item h3 {
+      font-size: 0.85rem;
+      color: #2d7dd2;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 0.5rem;
+    }
+    .infra-item ul { list-style: none; }
+    .infra-item li { font-size: 0.875rem; color: #94a3b8; padding: 0.1rem 0; }
+    .infra-item li::before { content: "· "; color: #2d7dd2; }
+
+    /* ── Experience timeline ── */
+    .timeline { position: relative; padding-left: 1.5rem; }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.4rem;
+      bottom: 0;
+      width: 2px;
+      background: #2d3748;
+    }
+    .timeline-item { position: relative; margin-bottom: 1.75rem; }
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      left: -1.87rem;
+      top: 0.45rem;
+      width: 10px;
+      height: 10px;
+      background: #2d7dd2;
+      border-radius: 50%;
+    }
+    .timeline-item .role { font-weight: 600; color: #f0f4f8; }
+    .timeline-item .company { color: #2d7dd2; font-size: 0.9rem; }
+    .timeline-item .period { color: #64748b; font-size: 0.8rem; margin-bottom: 0.3rem; }
+    .timeline-item p { font-size: 0.875rem; color: #94a3b8; }
+
+    /* ── Education ── */
+    .edu-list { list-style: none; }
+    .edu-list li {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #1e2535;
+    }
+    .edu-list li:last-child { border-bottom: none; }
+    .edu-list strong { color: #e2e8f0; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+      color: #4a5568;
+      border-top: 1px solid #1e2535;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.8rem; }
+      .project-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>John M. Fritsch</h1>
+  <div class="tagline">Technology Systems Optimization Specialist</div>
+  <p class="summary">
+    15+ years building, integrating, and automating IT systems across Utilities and Healthcare.
+    Full-stack thinker from bare-metal infrastructure to business-facing applications —
+    with an MBA to keep it grounded in outcomes.
+  </p>
+  <div class="contact-links">
+    <a href="mailto:johnmfritsch@gmail.com">johnmfritsch@gmail.com</a>
+    <a href="https://www.linkedin.com/in/johnmfritsch/" target="_blank">LinkedIn</a>
+    <a href="tel:6107513357">610.751.3357</a>
+  </div>
+</header>
+
+<main>
+
+  <!-- SKILLS -->
+  <section>
+    <h2>Core Skills</h2>
+    <div class="skills-grid">
+      <div class="skill-category">
+        <h3>Languages</h3>
+        <ul>
+          <li>Python</li>
+          <li>C / C#</li>
+          <li>PowerShell</li>
+          <li>Shell / TCL</li>
+          <li>SQL</li>
+          <li>HTML / JSON / XML</li>
+        </ul>
+      </div>
+      <div class="skill-category">
+        <h3>Systems &amp; Infrastructure</h3>
+        <ul>
+          <li>Linux / HP-UX / Windows</li>
+          <li>VMware / VCenter</li>
+          <li>SAN / HP Chassis &amp; Blades</li>
+          <li>Cisco Networking</li>
+          <li>Docker</li>
+          <li>DNS / Firewall</li>
+        </ul>
+      </div>
+      <div class="skill-category">
+        <h3>Monitoring &amp; Dev Tools</h3>
+        <ul>
+          <li>SolarWinds / SCOM</li>
+          <li>Visual Studio / VS Code</li>
+          <li>Microsoft SSIS / SSRS</li>
+          <li>Azure</li>
+          <li>ServiceNow / Cherwell</li>
+          <li>TFS / Git</li>
+        </ul>
+      </div>
+      <div class="skill-category">
+        <h3>Business &amp; Process</h3>
+        <ul>
+          <li>Process Improvement</li>
+          <li>Root Cause Analysis</li>
+          <li>Incident Management</li>
+          <li>Project Management</li>
+          <li>Technical Documentation</li>
+          <li>Cross-functional Collaboration</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section>
+    <h2>Personal Projects</h2>
+    <div class="project-grid">
+
+      <a class="card" href="https://fritsch-nas.myasustor.com:7783/GardenBuddy" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+        <div class="card-header">
+          <div class="card-icon">🌿</div>
+          <div>
+            <div class="card-type">Web Application</div>
+            <h3>GardenBuddy</h3>
+          </div>
+        </div>
+        <p>
+          Full-stack garden management app for tracking plantings, harvests, and seasonal records.
+          Designed, developed, and self-hosted end-to-end.
+        </p>
+        <div class="tag-list">
+          <span class="tag">Python / Flask</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">SSL / HTTPS</span>
+          <span class="tag">Nginx</span>
+          <span class="tag">Self-hosted</span>
+        </div>
+      </a>
+
+      <a class="card" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+        <div class="card-header">
+          <div class="card-icon">📚</div>
+          <div>
+            <div class="card-type">Web Application</div>
+            <h3>BorrowBuddy</h3>
+          </div>
+        </div>
+        <p>
+          Borrowing tracker for managing who has what — books, tools, gear. Built for real household use
+          with a clean mobile-friendly UI.
+        </p>
+        <div class="tag-list">
+          <span class="tag">Python / Flask</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">REST API</span>
+          <span class="tag">SSL / HTTPS</span>
+          <span class="tag">Self-hosted</span>
+        </div>
+      </a>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🏓</div>
+          <div>
+            <div class="card-type">Desktop Application</div>
+            <h3>PingPong Scorekeeper</h3>
+          </div>
+        </div>
+        <p>
+          Full-featured table tennis scoring app with live audio/visual feedback, dual rule sets (House &amp; ITTF),
+          undo/redo, milestone celebrations, and automatic game persistence to Google Sheets.
+          Ships as a standalone Windows executable.
+        </p>
+        <div class="tag-list">
+          <span class="tag">Python</span>
+          <span class="tag">Tkinter</span>
+          <span class="tag">Google Sheets API</span>
+          <span class="tag">pygame</span>
+          <span class="tag">Text-to-Speech</span>
+          <span class="tag">PyInstaller</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🖥️</div>
+          <div>
+            <div class="card-type">Infrastructure</div>
+            <h3>Self-Hosted NAS</h3>
+          </div>
+        </div>
+        <p>
+          ASUSTOR AS5202T running a full production environment: multi-app reverse proxy, Docker-based
+          services, SSL certificate management, automated backups, and external access via port forwarding.
+        </p>
+        <div class="tag-list">
+          <span class="tag">Linux</span>
+          <span class="tag">Nginx</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Let's Encrypt</span>
+          <span class="tag">Plex</span>
+          <span class="tag">Tautulli</span>
+          <span class="tag">IDrive</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- INFRASTRUCTURE -->
+  <section>
+    <h2>Home Lab Infrastructure</h2>
+    <div class="infra-grid">
+      <div class="infra-item">
+        <h3>Compute &amp; Storage</h3>
+        <ul>
+          <li>ASUSTOR AS5202T NAS</li>
+          <li>7.3TB primary volume</li>
+          <li>Multiple Docker containers</li>
+          <li>VMware experience (enterprise)</li>
+        </ul>
+      </div>
+      <div class="infra-item">
+        <h3>Networking</h3>
+        <ul>
+          <li>Eero mesh (LAN)</li>
+          <li>Custom Nginx reverse proxy</li>
+          <li>External DNS + port forwarding</li>
+          <li>Firewall management</li>
+        </ul>
+      </div>
+      <div class="infra-item">
+        <h3>Web Stack</h3>
+        <ul>
+          <li>Nginx (custom + ADM)</li>
+          <li>Apache (ADM apps)</li>
+          <li>Flask apps (SSL direct)</li>
+          <li>Let's Encrypt TLS</li>
+        </ul>
+      </div>
+      <div class="infra-item">
+        <h3>Services Running</h3>
+        <ul>
+          <li>Plex Media Server</li>
+          <li>Tautulli (Docker)</li>
+          <li>IDrive cloud backup</li>
+          <li>2 self-built web apps + 1 desktop app</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section>
+    <h2>Professional Experience</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="role">Senior IT Systems Analyst</div>
+        <div class="company">PPL Corporation — Allentown, PA</div>
+        <div class="period">2018 – 2025</div>
+        <p>Monitored critical IT/OT systems; served as Major Incident Manager; built automation reducing incident resolution time 20%; SME for Microsoft SCOM.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="role">Senior Developer</div>
+        <div class="company">PPL Corporation — Allentown, PA</div>
+        <div class="period">2016 – 2018</div>
+        <p>Developed telephony campaigns and automation using C#, SSIS, SSRS, SQL Server. Increased customer contact rates 25%; reduced trouble tickets 33%.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="role">IT Systems Engineer-Specialist / Storage & VM Admin / UNIX Admin</div>
+        <div class="company">PPL Corporation (via Computer Aid) — Allentown, PA</div>
+        <div class="period">2010 – 2016</div>
+        <p>Level 3 support for Business Solutions; VMware/SAN administration; Linux and HP-UX server management; data center migration.</p>
+      </div>
+
+      <div class="timeline-item">
+        <div class="role">Subject Matter Expert — Interface Development &amp; UNIX Administration</div>
+        <div class="company">Lehigh Valley Hospital — Allentown, PA</div>
+        <div class="period">Prior</div>
+        <p>Led team delivering 100+ HL7 interfaces; maintained 60+ servers; implemented first SSO solution at LVH.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section>
+    <h2>Education &amp; Certifications</h2>
+    <ul class="edu-list">
+      <li><strong>MBA</strong> — Cedar Crest College, Allentown, PA</li>
+      <li><strong>BS, Computer Science</strong> — DeSales University, Center Valley, PA</li>
+      <li><strong>Interaction Dialer Certified Engineer (IDCE)</strong></li>
+      <li><strong>Project Management Certification</strong> — PMLG</li>
+      <li>Cloud &amp; Datacenter Monitoring with SCOM · SAN Administration · HP-UX LVM · PeopleTools 8 · Sybase eBiz Impact</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  John M. Fritsch &nbsp;·&nbsp; Slatington, PA &nbsp;·&nbsp; johnmfritsch@gmail.com &nbsp;·&nbsp; Built &amp; self-hosted on a personal NAS
+</footer>
+
+</body>
+</html>
