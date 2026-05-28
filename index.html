@@ -106,8 +106,26 @@
       border-radius: 8px;
       padding: 1.5rem;
       transition: border-color 0.2s, transform 0.2s;
+      position: relative;
+      display: flex;
+      flex-direction: column;
     }
     .card:hover { border-color: #2d7dd2; transform: translateY(-2px); }
+    .card-live-link {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-radius: 8px;
+    }
+    .card-footer {
+      margin-top: auto;
+      padding-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
     .card-header {
       display: flex;
       align-items: center;
@@ -297,7 +315,8 @@
     <h2>Personal Projects</h2>
     <div class="project-grid">
 
-      <a class="card" href="https://fritsch-nas.myasustor.com:7783/GardenBuddy" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+      <div class="card">
+        <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7783/GardenBuddy" target="_blank" aria-label="Open GardenBuddy"></a>
         <div class="card-header">
           <div class="card-icon">🌿</div>
           <div>
@@ -316,10 +335,14 @@
           <span class="tag">Nginx</span>
           <span class="tag">Self-hosted</span>
         </div>
-        <a class="card-link" href="https://github.com/johnmfritsch/gardenbuddy" target="_blank" onclick="event.stopPropagation()">View on GitHub →</a>
-      </a>
+        <div class="card-footer">
+          <a class="card-link" href="https://fritsch-nas.myasustor.com:7783/GardenBuddy" target="_blank">Live Demo →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/gardenbuddy" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
 
-      <a class="card" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+      <div class="card">
+        <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank" aria-label="Open BorrowBuddy"></a>
         <div class="card-header">
           <div class="card-icon">📚</div>
           <div>
@@ -338,8 +361,11 @@
           <span class="tag">SSL / HTTPS</span>
           <span class="tag">Self-hosted</span>
         </div>
-        <a class="card-link" href="https://github.com/johnmfritsch/borrowbuddy" target="_blank" onclick="event.stopPropagation()">View on GitHub →</a>
-      </a>
+        <div class="card-footer">
+          <a class="card-link" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank">Live Demo →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/borrowbuddy" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
 
       <div class="card">
         <div class="card-header">
@@ -362,10 +388,13 @@
           <span class="tag">Text-to-Speech</span>
           <span class="tag">PyInstaller</span>
         </div>
-        <a class="card-link" href="https://github.com/johnmfritsch/pingpong-scorekeeper" target="_blank">View on GitHub →</a>
+        <div class="card-footer">
+          <a class="card-link" href="https://github.com/johnmfritsch/pingpong-scorekeeper" target="_blank">View on GitHub →</a>
+        </div>
       </div>
 
-      <a class="card" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank" style="text-decoration:none;color:inherit;display:block;">
+      <div class="card">
+        <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank" aria-label="Open JobSearch"></a>
         <div class="card-header">
           <div class="card-icon">🔍</div>
           <div>
@@ -385,8 +414,11 @@
           <span class="tag">Multi-user</span>
           <span class="tag">Self-hosted</span>
         </div>
-        <a class="card-link" href="https://github.com/johnmfritsch/jobsearch" target="_blank" onclick="event.stopPropagation()">View on GitHub →</a>
-      </a>
+        <div class="card-footer">
+          <a class="card-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank">Live Demo →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/jobsearch" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
 
       <div class="card">
         <div class="card-header">
@@ -409,7 +441,9 @@
           <span class="tag">Tautulli</span>
           <span class="tag">IDrive</span>
         </div>
-        <a class="card-link" href="https://github.com/johnmfritsch/home-lab" target="_blank">View on GitHub →</a>
+        <div class="card-footer">
+          <a class="card-link" href="https://github.com/johnmfritsch/home-lab" target="_blank">View on GitHub →</a>
+        </div>
       </div>
 
     </div>
@@ -452,7 +486,7 @@
           <li>Plex Media Server</li>
           <li>Tautulli (Docker)</li>
           <li>IDrive cloud backup</li>
-          <li>2 self-built web apps + 1 desktop app</li>
+          <li>3 self-built web apps + 1 desktop app</li>
         </ul>
       </div>
     </div>
