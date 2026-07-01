@@ -146,6 +146,14 @@
       margin-bottom: 0.5rem;
     }
     .card p { font-size: 0.9rem; color: #94a3b8; margin-bottom: 1rem; }
+    .card p code {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 0.85em;
+      color: #cbd5e1;
+      background: #0f1117;
+      padding: 0.05rem 0.3rem;
+      border-radius: 3px;
+    }
     .tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .tag {
       background: #0f1117;
@@ -394,6 +402,30 @@
       </div>
 
       <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🎬</div>
+          <div>
+            <div class="card-type">Desktop Application</div>
+            <h3>Plexifier</h3>
+          </div>
+        </div>
+        <p>
+          Portable Windows GUI that batch-converts video to Plex-ready MP4 so files "Direct Play" with no
+          server-side transcoding. A four-tier decision engine (skip / copy / remux / re-encode) inspects each
+          file with ffprobe and does the least work needed. Bundles its own PowerShell 7, HandBrakeCLI, and
+          ffmpeg — zero install, and originals are preserved as <code>.bak</code>.
+        </p>
+        <div class="tag-list">
+          <span class="tag">PowerShell</span>
+          <span class="tag">WinForms GUI</span>
+          <span class="tag">HandBrakeCLI</span>
+          <span class="tag">ffmpeg / ffprobe</span>
+          <span class="tag">H.264 / AAC / AC-3</span>
+          <span class="tag">Portable</span>
+        </div>
+      </div>
+
+      <div class="card">
         <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank" aria-label="Open JobSearch"></a>
         <div class="card-header">
           <div class="card-icon">🔍</div>
@@ -486,7 +518,7 @@
           <li>Plex Media Server</li>
           <li>Tautulli (Docker)</li>
           <li>IDrive cloud backup</li>
-          <li>3 self-built web apps + 1 desktop app</li>
+          <li>3 self-built web apps + 2 desktop apps</li>
         </ul>
       </div>
     </div>
