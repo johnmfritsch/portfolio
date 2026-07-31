@@ -172,6 +172,45 @@
     }
     .card-link:hover { text-decoration: underline; }
 
+    /* ── Technical details disclosure ── */
+    .card-details {
+      position: relative;
+      z-index: 1;
+      margin-top: 0.75rem;
+    }
+    .card-details summary {
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: #2d7dd2;
+      list-style: none;
+      user-select: none;
+    }
+    .card-details summary::-webkit-details-marker { display: none; }
+    .card-details summary::before { content: "▸ "; }
+    .card-details[open] summary::before { content: "▾ "; }
+    .card-details summary:hover { text-decoration: underline; }
+    .card-details p {
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+
+    /* ── Flagship project ── */
+    .card--flagship {
+      border-color: #2d7dd2;
+      background: linear-gradient(180deg, #1a1f2e 0%, #17233a 100%);
+    }
+    .flagship-badge {
+      display: inline-block;
+      background: #2d7dd2;
+      color: #0f1117;
+      padding: 0.05rem 0.4rem;
+      border-radius: 3px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-left: 0.5rem;
+    }
+
     /* ── Infrastructure section ── */
     .infra-grid {
       display: grid;
@@ -252,7 +291,7 @@
 
 <header>
   <h1>John M. Fritsch</h1>
-  <div class="tagline">Technology Systems Optimization Specialist</div>
+  <div class="tagline">Senior IT Systems &amp; Infrastructure Analyst</div>
   <p class="summary">
     15+ years building, integrating, and automating IT systems across Utilities and Healthcare.
     Full-stack thinker from bare-metal infrastructure to business-facing applications —
@@ -324,80 +363,120 @@
     <div class="project-grid">
 
       <div class="card">
+        <div class="card-header">
+          <div class="card-icon">🖥️</div>
+          <div>
+            <div class="card-type">Infrastructure</div>
+            <h3>Self-Hosted NAS</h3>
+          </div>
+        </div>
+        <p>
+          The home lab that hosts every project on this page. An ASUSTOR AS5202T runs a real production
+          environment — multi-app reverse proxy, Docker-based services, SSL certificate management,
+          automated backups, and external access via port forwarding — the infrastructure layer everything
+          else here sits on top of.
+        </p>
+        <div class="tag-list">
+          <span class="tag">Linux</span>
+          <span class="tag">Nginx</span>
+          <span class="tag">Docker</span>
+          <span class="tag">Let's Encrypt</span>
+          <span class="tag">Plex</span>
+          <span class="tag">Tautulli</span>
+          <span class="tag">IDrive</span>
+        </div>
+        <details class="card-details">
+          <summary>Technical Details</summary>
+          <p>
+            16 GB RAM, dual 4 TB RAID storage. Three separate Nginx instances coexist on the box — a
+            custom instance path-routes LAN traffic on 443, while ADM's own reverse proxy stays on 8443
+            for admin/IDrive so the two never collide. The router blocks inbound 80/443, so each
+            externally-reachable app terminates its own SSL on a dedicated forwarded port instead of
+            relying on the shared proxy. Boot-time persistence (service auto-start, kernel tuning) survives
+            ADM firmware updates via a root-level init.d hook rather than config files ADM rebuilds on
+            every boot. IDrive handles offsite backup.
+          </p>
+        </details>
+        <div class="card-footer">
+          <a class="card-link" href="https://github.com/johnmfritsch/home-lab" target="_blank">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="card card--flagship">
         <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7783/GardenBuddy" target="_blank" aria-label="Open GardenBuddy"></a>
         <div class="card-header">
           <div class="card-icon">🌿</div>
           <div>
-            <div class="card-type">Web Application</div>
+            <div class="card-type">Web Application <span class="flagship-badge">Flagship</span></div>
             <h3>GardenBuddy</h3>
           </div>
         </div>
         <p>
-          Full-stack garden management app for tracking plantings, harvests, and seasonal records.
-          Designed, developed, and self-hosted end-to-end.
+          A full garden-management platform for tracking plants from seed to harvest — plantings, journal
+          entries, yields, and seasonal history, with QR-code plant tags for at-a-glance access out in the
+          garden. The most complete of my self-hosted apps: multi-user with admin controls, audit logging,
+          and a data model that's evolved through 45+ schema migrations as real usage uncovered new needs.
         </p>
         <div class="tag-list">
           <span class="tag">Python / Flask</span>
           <span class="tag">SQLite</span>
+          <span class="tag">Gunicorn</span>
           <span class="tag">SSL / HTTPS</span>
           <span class="tag">Nginx</span>
           <span class="tag">Self-hosted</span>
         </div>
+        <details class="card-details">
+          <summary>Technical Details</summary>
+          <p>
+            Flask + SQLite behind Gunicorn (gthread workers, <code>--preload</code> so workers are born
+            warm instead of taking ~6s on a cold first request). A self-healing watchdog polls a
+            <code>/health</code> endpoint and automatically recycles or restarts a wedged worker — built
+            after a real production incident where a stuck thread silently dropped roughly half of all
+            requests for days before anyone noticed. Harvest tracking supports both single-entry and
+            per-item measurements (weight, length, circumference) without double-counting totals, and a
+            separate disposition model tracks what happens to the harvest after it's picked. Dev and prod
+            run as parity-matched environments with a scripted deploy and rollback path.
+          </p>
+        </details>
         <div class="card-footer">
-          <a class="card-link" href="https://fritsch-nas.myasustor.com:7783/GardenBuddy" target="_blank">Live Demo →</a>
+          <a class="card-link" href="https://fritsch-nas.myasustor.com:7783/GardenBuddy" target="_blank">Live Demo (login required) →</a>
           <a class="card-link" href="https://github.com/johnmfritsch/gardenbuddy" target="_blank">View on GitHub →</a>
         </div>
       </div>
 
       <div class="card">
-        <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank" aria-label="Open BorrowBuddy"></a>
+        <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank" aria-label="Open JobSearch"></a>
         <div class="card-header">
-          <div class="card-icon">📚</div>
+          <div class="card-icon">🔍</div>
           <div>
             <div class="card-type">Web Application</div>
-            <h3>BorrowBuddy</h3>
+            <h3>JobSearch</h3>
           </div>
         </div>
         <p>
-          Borrowing tracker for managing who has what — books, tools, gear. Built for real household use
-          with a clean mobile-friendly UI.
-        </p>
-        <div class="tag-list">
-          <span class="tag">Python / Flask</span>
-          <span class="tag">SQLite</span>
-          <span class="tag">REST API</span>
-          <span class="tag">SSL / HTTPS</span>
-          <span class="tag">Self-hosted</span>
-        </div>
-        <div class="card-footer">
-          <a class="card-link" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank">Live Demo →</a>
-          <a class="card-link" href="https://github.com/johnmfritsch/borrowbuddy" target="_blank">View on GitHub →</a>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <div class="card-icon">🏓</div>
-          <div>
-            <div class="card-type">Desktop Application</div>
-            <h3>PingPong Scorekeeper</h3>
-          </div>
-        </div>
-        <p>
-          Full-featured table tennis scoring app with live audio/visual feedback, dual rule sets (House &amp; ITTF),
-          undo/redo, milestone celebrations, and automatic game persistence to Google Sheets.
-          Ships as a standalone Windows executable.
+          Multi-user job search aggregator with per-user keyword filters, blocked-word rules, and a
+          personal dashboard for tracking applications. PHP frontend proxies to a Python API backend
+          with dev and prod environments.
         </p>
         <div class="tag-list">
           <span class="tag">Python</span>
-          <span class="tag">Tkinter</span>
-          <span class="tag">Google Sheets API</span>
-          <span class="tag">pygame</span>
-          <span class="tag">Text-to-Speech</span>
-          <span class="tag">PyInstaller</span>
+          <span class="tag">PHP</span>
+          <span class="tag">REST API</span>
+          <span class="tag">Multi-user</span>
+          <span class="tag">Self-hosted</span>
         </div>
+        <details class="card-details">
+          <summary>Technical Details</summary>
+          <p>
+            PHP frontend proxies to a Python API backend, with each user's keyword include/block lists
+            baked into their own personalized dashboard page rather than fetched at runtime. Dev and prod
+            run as fully isolated Python API instances behind the same reverse proxy, selected by a query
+            parameter in the PHP proxy layer, with per-user access logging.
+          </p>
+        </details>
         <div class="card-footer">
-          <a class="card-link" href="https://github.com/johnmfritsch/pingpong-scorekeeper" target="_blank">View on GitHub →</a>
+          <a class="card-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank">Live Demo (login required) →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/jobsearch" target="_blank">View on GitHub →</a>
         </div>
       </div>
 
@@ -423,61 +502,89 @@
           <span class="tag">H.264 / AAC / AC-3</span>
           <span class="tag">Portable</span>
         </div>
+        <details class="card-details">
+          <summary>Technical Details</summary>
+          <p>
+            The decision engine probes each file's container, video codec, and audio streams with ffprobe,
+            then picks the cheapest tier that produces a Plex-ready result — avoiding the common mistake of
+            blindly re-encoding an entire library when most files only need a container swap or an audio
+            pass. Ships as a ~6,700-line PowerShell WinForms app bundling its own PowerShell 7, HandBrakeCLI,
+            and ffmpeg — zero install footprint on the target machine — with a pre-flight-checking launcher
+            and per-run debug logging for troubleshooting.
+          </p>
+        </details>
         <div class="card-footer">
           <a class="card-link" href="https://github.com/johnmfritsch/plexifier" target="_blank">View on GitHub →</a>
         </div>
       </div>
 
       <div class="card">
-        <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank" aria-label="Open JobSearch"></a>
+        <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank" aria-label="Open BorrowBuddy"></a>
         <div class="card-header">
-          <div class="card-icon">🔍</div>
+          <div class="card-icon">📚</div>
           <div>
             <div class="card-type">Web Application</div>
-            <h3>JobSearch</h3>
+            <h3>BorrowBuddy</h3>
           </div>
         </div>
         <p>
-          Multi-user job search aggregator with per-user keyword filters, blocked-word rules, and a
-          personal dashboard for tracking applications. PHP frontend proxies to a Python API backend
-          with dev and prod environments.
+          Borrowing tracker for managing who has what — books, tools, gear. Built for real household use
+          with a clean mobile-friendly UI.
         </p>
         <div class="tag-list">
-          <span class="tag">Python</span>
-          <span class="tag">PHP</span>
+          <span class="tag">Python / Flask</span>
+          <span class="tag">SQLite</span>
           <span class="tag">REST API</span>
-          <span class="tag">Multi-user</span>
+          <span class="tag">SSL / HTTPS</span>
           <span class="tag">Self-hosted</span>
         </div>
+        <details class="card-details">
+          <summary>Technical Details</summary>
+          <p>
+            Flask REST API with a vanilla-JS frontend and client-side duplicate-loan detection to catch
+            re-entry mistakes before they hit the database. Self-hosted with its own SSL termination on a
+            dedicated port, separate from the LAN-only Nginx routing used elsewhere on the NAS.
+          </p>
+        </details>
         <div class="card-footer">
-          <a class="card-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank">Live Demo →</a>
-          <a class="card-link" href="https://github.com/johnmfritsch/jobsearch" target="_blank">View on GitHub →</a>
+          <a class="card-link" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank">Live Demo (login required) →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/borrowbuddy" target="_blank">View on GitHub →</a>
         </div>
       </div>
 
       <div class="card">
         <div class="card-header">
-          <div class="card-icon">🖥️</div>
+          <div class="card-icon">🏓</div>
           <div>
-            <div class="card-type">Infrastructure</div>
-            <h3>Self-Hosted NAS</h3>
+            <div class="card-type">Desktop Application</div>
+            <h3>PingPong Scorekeeper</h3>
           </div>
         </div>
         <p>
-          ASUSTOR AS5202T running a full production environment: multi-app reverse proxy, Docker-based
-          services, SSL certificate management, automated backups, and external access via port forwarding.
+          Full-featured table tennis scoring app with live audio/visual feedback, dual rule sets (House &amp; ITTF),
+          undo/redo, milestone celebrations, and automatic game persistence to Google Sheets.
+          Ships as a standalone Windows executable.
         </p>
         <div class="tag-list">
-          <span class="tag">Linux</span>
-          <span class="tag">Nginx</span>
-          <span class="tag">Docker</span>
-          <span class="tag">Let's Encrypt</span>
-          <span class="tag">Plex</span>
-          <span class="tag">Tautulli</span>
-          <span class="tag">IDrive</span>
+          <span class="tag">Python</span>
+          <span class="tag">Tkinter</span>
+          <span class="tag">Google Sheets API</span>
+          <span class="tag">pygame</span>
+          <span class="tag">Text-to-Speech</span>
+          <span class="tag">PyInstaller</span>
         </div>
+        <details class="card-details">
+          <summary>Technical Details</summary>
+          <p>
+            Tkinter desktop app driven by immutable state snapshots (<code>game_state.py</code>) for
+            reliable undo/redo through a live game, with a centralized manifest module handling config,
+            assets, and styling. Supports both House and ITTF official rule sets, live text-to-speech score
+            calls, and automatic per-game persistence to Google Sheets via the Sheets API. Packaged as a
+            standalone Windows executable with PyInstaller.
+          </p>
+        </details>
         <div class="card-footer">
-          <a class="card-link" href="https://github.com/johnmfritsch/home-lab" target="_blank">View on GitHub →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/pingpong-scorekeeper" target="_blank">View on GitHub →</a>
         </div>
       </div>
 
@@ -494,7 +601,6 @@
           <li>ASUSTOR AS5202T NAS</li>
           <li>7.3TB primary volume</li>
           <li>Multiple Docker containers</li>
-          <li>VMware experience (enterprise)</li>
         </ul>
       </div>
       <div class="infra-item">
@@ -536,7 +642,7 @@
         <div class="role">Senior IT Systems Analyst</div>
         <div class="company">PPL Corporation — Allentown, PA</div>
         <div class="period">2018 – 2025</div>
-        <p>Monitored critical IT/OT systems; served as Major Incident Manager; built automation reducing incident resolution time 20%; SME for Microsoft SCOM.</p>
+        <p>Automated router firmware rollout across 3,000+ Cisco/Nokia switches and built a proactive Azure monitor that resolved user session issues before impact. Reduced incident resolution time 20% as Major Incident Manager; SME for SolarWinds/SCOM monitoring of critical IT/OT systems.</p>
       </div>
 
       <div class="timeline-item">
@@ -554,10 +660,10 @@
       </div>
 
       <div class="timeline-item">
-        <div class="role">Subject Matter Expert — Interface Development &amp; UNIX Administration</div>
+        <div class="role">Subject Matter Expert — Interfaces &amp; UNIX Administration</div>
         <div class="company">Lehigh Valley Hospital — Allentown, PA</div>
-        <div class="period">Prior</div>
-        <p>Led team delivering 100+ HL7 interfaces; maintained 60+ servers; implemented first SSO solution at LVH.</p>
+        <div class="period">1992 – 2009</div>
+        <p>Led interface development and UNIX administration team delivering 100+ HL7 interfaces and maintaining 60+ servers across systems including McKesson, MEDITECH, GE Centricity, and NextGen.</p>
       </div>
 
     </div>
@@ -565,13 +671,15 @@
 
   <!-- EDUCATION -->
   <section>
-    <h2>Education &amp; Certifications</h2>
+    <h2>Education, Certifications &amp; Training</h2>
     <ul class="edu-list">
       <li><strong>MBA</strong> — Cedar Crest College, Allentown, PA</li>
       <li><strong>BS, Computer Science</strong> — DeSales University, Center Valley, PA</li>
-      <li><strong>Interaction Dialer Certified Engineer (IDCE)</strong></li>
-      <li><strong>Project Management Certification</strong> — PMLG</li>
-      <li>Cloud &amp; Datacenter Monitoring with SCOM · SAN Administration · HP-UX LVM · PeopleTools 8 · Sybase eBiz Impact</li>
+      <li>Cloud &amp; Datacenter Monitoring with SCOM — PPL, Virtual</li>
+      <li>Interaction Dialer Certified Engineer (IDCE) — PPL, Virtual</li>
+      <li>Leadership Effectiveness Training — PPL, Virtual</li>
+      <li>Administering the CIC System — PPL, Virtual</li>
+      <li>SAN Administration — PPL, Allentown, PA</li>
     </ul>
   </section>
 
