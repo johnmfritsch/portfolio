@@ -4,6 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>John Fritsch | IT Portfolio</title>
+  <meta name="description" content="Portfolio of John M. Fritsch, a senior IT systems and infrastructure analyst with 30+ years in automation, monitoring, integration, and enterprise operations — now building with agentic AI tooling." />
+  <link rel="canonical" href="https://johnmfritsch.github.io/portfolio/" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://johnmfritsch.github.io/portfolio/" />
+  <meta property="og:title" content="John M. Fritsch | IT Portfolio" />
+  <meta property="og:description" content="Senior IT systems and infrastructure analyst with 30+ years in automation, monitoring, integration, and enterprise operations — now building with agentic AI tooling." />
+  <meta property="og:image" content="https://johnmfritsch.github.io/portfolio/assets/portfolio-social-preview.png" />
+  <meta property="og:image:width" content="1731" />
+  <meta property="og:image:height" content="909" />
+  <meta property="og:image:alt" content="Server infrastructure and network visualization representing John M. Fritsch's IT portfolio" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="John M. Fritsch | IT Portfolio" />
+  <meta name="twitter:description" content="Senior IT systems and infrastructure analyst with 30+ years in automation, monitoring, integration, and enterprise operations — now building with agentic AI tooling." />
+  <meta name="twitter:image" content="https://johnmfritsch.github.io/portfolio/assets/portfolio-social-preview.png" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -52,6 +67,12 @@
       transition: background 0.2s;
     }
     .contact-links a:hover { background: #2d7dd220; }
+    a:focus-visible,
+    summary:focus-visible {
+      outline: 2px solid #93c5fd;
+      outline-offset: 3px;
+      border-radius: 3px;
+    }
 
     /* ── Main layout ── */
     main {
@@ -76,7 +97,7 @@
     /* ── Skills grid ── */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1rem;
     }
     .skill-category h3 {
@@ -93,6 +114,14 @@
       padding: 0.15rem 0;
     }
     .skill-category li::before { content: "› "; color: #2d7dd2; }
+
+    .section-note {
+      font-size: 0.875rem;
+      color: #94a3b8;
+      margin: -0.75rem 0 1.5rem;
+      padding-left: 0.9rem;
+      border-left: 2px solid #2d7dd2;
+    }
 
     /* ── Project cards ── */
     .project-grid {
@@ -111,12 +140,6 @@
       flex-direction: column;
     }
     .card:hover { border-color: #2d7dd2; transform: translateY(-2px); }
-    .card-live-link {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      border-radius: 8px;
-    }
     .card-footer {
       margin-top: auto;
       padding-top: 1rem;
@@ -195,6 +218,14 @@
       color: #94a3b8;
     }
 
+    /* ── Umbrella (full-width) project ── */
+    .card--umbrella { grid-column: 1 / -1; }
+    .card-details .infra-grid {
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      margin-top: 1rem;
+    }
+    .card-details .infra-item { background: #0f1117; }
+
     /* ── Flagship project ── */
     .card--flagship {
       border-color: #2d7dd2;
@@ -260,6 +291,22 @@
     .timeline-item .company { color: #2d7dd2; font-size: 0.9rem; }
     .timeline-item .period { color: #64748b; font-size: 0.8rem; margin-bottom: 0.3rem; }
     .timeline-item p { font-size: 0.875rem; color: #94a3b8; }
+    .timeline-item ul { list-style: none; margin-top: 0.35rem; }
+    .timeline-item li {
+      font-size: 0.875rem;
+      color: #94a3b8;
+      padding: 0.15rem 0 0.15rem 0.9rem;
+      text-indent: -0.9rem;
+    }
+    .timeline-item li::before { content: "› "; color: #2d7dd2; }
+    .edu-group {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #2d7dd2;
+      margin: 1.25rem 0 0.4rem;
+    }
+    .edu-group:first-child { margin-top: 0; }
 
     /* ── Education ── */
     .edu-list { list-style: none; }
@@ -293,13 +340,15 @@
   <h1>John M. Fritsch</h1>
   <div class="tagline">Senior IT Systems &amp; Infrastructure Analyst</div>
   <p class="summary">
-    15+ years building, integrating, and automating IT systems across Utilities and Healthcare.
-    Full-stack thinker from bare-metal infrastructure to business-facing applications —
-    with an MBA to keep it grounded in outcomes.
+    30+ years designing, integrating, and automating IT systems across Utilities and Healthcare —
+    full-stack from bare-metal infrastructure to business-facing applications, with an MBA to keep it
+    grounded in outcomes. Now applying agentic AI tooling to the same problems: building working
+    software and automating IT processes end to end.
   </p>
   <div class="contact-links">
+    <a href="https://drive.google.com/file/d/1BRCH1F-PrVyvkU68Er1Ca2jASjPrn-4H/view?usp=drive_link" target="_blank" rel="noopener noreferrer">View Résumé (PDF)</a>
     <a href="mailto:johnmfritsch@gmail.com">johnmfritsch@gmail.com</a>
-    <a href="https://www.linkedin.com/in/johnmfritsch/" target="_blank">LinkedIn</a>
+    <a href="https://www.linkedin.com/in/johnmfritsch/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     <a href="tel:6107513357">610.751.3357</a>
   </div>
 </header>
@@ -311,47 +360,69 @@
     <h2>Core Skills</h2>
     <div class="skills-grid">
       <div class="skill-category">
-        <h3>Languages</h3>
+        <h3>AI &amp; Agentic Development</h3>
+        <ul>
+          <li>Anthropic Claude / Claude Code</li>
+          <li>OpenAI ChatGPT / Codex</li>
+          <li>xAI Grok</li>
+          <li>Agentic coding workflows</li>
+          <li>LLM-driven automation</li>
+          <li>AI-assisted tooling &amp; scripting</li>
+        </ul>
+      </div>
+      <div class="skill-category">
+        <h3>Languages &amp; Dev Tools</h3>
         <ul>
           <li>Python</li>
-          <li>C / C#</li>
           <li>PowerShell</li>
+          <li>C / C#</li>
           <li>Shell / TCL</li>
           <li>SQL</li>
-          <li>HTML / JSON / XML</li>
+          <li>Visual Studio / VS Code</li>
+          <li>Git / TFS</li>
         </ul>
       </div>
       <div class="skill-category">
         <h3>Systems &amp; Infrastructure</h3>
         <ul>
           <li>Linux / HP-UX / Windows</li>
-          <li>VMware / VCenter</li>
-          <li>SAN / HP Chassis &amp; Blades</li>
-          <li>Cisco Networking</li>
+          <li>VMware / vCenter</li>
           <li>Docker</li>
           <li>DNS / Firewall</li>
+          <li>SAN / HP Chassis &amp; Blades</li>
+          <li>Cisco / Nokia Networking</li>
         </ul>
       </div>
       <div class="skill-category">
-        <h3>Monitoring &amp; Dev Tools</h3>
+        <h3>Monitoring &amp; Observability</h3>
         <ul>
-          <li>SolarWinds / SCOM</li>
-          <li>Visual Studio / VS Code</li>
-          <li>Microsoft SSIS / SSRS</li>
           <li>Azure</li>
+          <li>SolarWinds / SCOM</li>
           <li>ServiceNow / Cherwell</li>
-          <li>TFS / Git</li>
+          <li>Custom monitoring utilities</li>
+          <li>Threshold &amp; auto-remediation alerting</li>
+        </ul>
+      </div>
+      <div class="skill-category">
+        <h3>Integration &amp; Data</h3>
+        <ul>
+          <li>Microsoft SSIS / SSRS</li>
+          <li>Microsoft SQL Server</li>
+          <li>Sybase eBiz Impact</li>
+          <li>HL7 / MLLP</li>
+          <li>JSON / XML / HTML</li>
+          <li>REST APIs</li>
         </ul>
       </div>
       <div class="skill-category">
         <h3>Business &amp; Process</h3>
         <ul>
-          <li>Process Improvement</li>
+          <li>Process Improvement / Automation</li>
           <li>Root Cause Analysis</li>
           <li>Incident Management</li>
-          <li>Project Management</li>
+          <li>Change Management</li>
           <li>Technical Documentation</li>
-          <li>Cross-functional Collaboration</li>
+          <li>Project Management</li>
         </ul>
       </div>
     </div>
@@ -360,14 +431,19 @@
   <!-- PROJECTS -->
   <section>
     <h2>Personal Projects</h2>
+    <p class="section-note">
+      These run on hardware I own and maintain, and most sit behind authentication — so there's no
+      open public demo. <strong>Live demos and code walkthroughs are available on request</strong> — happy
+      to screen-share any of it, or hand out a guest account.
+    </p>
     <div class="project-grid">
 
-      <div class="card">
+      <div class="card card--umbrella">
         <div class="card-header">
           <div class="card-icon">🖥️</div>
           <div>
             <div class="card-type">Infrastructure</div>
-            <h3>Self-Hosted NAS</h3>
+            <h3>Self-Hosted NAS &amp; Home Lab</h3>
           </div>
         </div>
         <p>
@@ -379,8 +455,10 @@
         <div class="tag-list">
           <span class="tag">Linux</span>
           <span class="tag">Nginx</span>
+          <span class="tag">Apache</span>
           <span class="tag">Docker</span>
           <span class="tag">Let's Encrypt</span>
+          <span class="tag">Gunicorn</span>
           <span class="tag">Plex</span>
           <span class="tag">Tautulli</span>
           <span class="tag">IDrive</span>
@@ -396,14 +474,51 @@
             ADM firmware updates via a root-level init.d hook rather than config files ADM rebuilds on
             every boot. IDrive handles offsite backup.
           </p>
+          <div class="infra-grid">
+            <div class="infra-item">
+              <h3>Compute &amp; Storage</h3>
+              <ul>
+                <li>ASUSTOR AS5202T NAS</li>
+                <li>16 GB RAM</li>
+                <li>7.3 TB primary volume</li>
+                <li>Multiple Docker containers</li>
+              </ul>
+            </div>
+            <div class="infra-item">
+              <h3>Networking</h3>
+              <ul>
+                <li>Eero mesh (LAN)</li>
+                <li>Custom Nginx reverse proxy</li>
+                <li>External DNS + port forwarding</li>
+                <li>Firewall management</li>
+              </ul>
+            </div>
+            <div class="infra-item">
+              <h3>Web Stack</h3>
+              <ul>
+                <li>Nginx (custom + ADM)</li>
+                <li>Apache (ADM apps)</li>
+                <li>Flask apps (SSL direct)</li>
+                <li>Let's Encrypt TLS</li>
+              </ul>
+            </div>
+            <div class="infra-item">
+              <h3>Services Running</h3>
+              <ul>
+                <li>Plex Media Server</li>
+                <li>Tautulli (Docker)</li>
+                <li>IDrive cloud backup</li>
+                <li>3 self-built web apps + 2 desktop apps</li>
+              </ul>
+            </div>
+          </div>
         </details>
         <div class="card-footer">
-          <a class="card-link" href="https://github.com/johnmfritsch/home-lab" target="_blank">View on GitHub →</a>
+        <a class="card-link" href="https://github.com/johnmfritsch/home-lab" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
         </div>
       </div>
 
       <div class="card card--flagship">
-        <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7783/GardenBuddy" target="_blank" aria-label="Open GardenBuddy"></a>
         <div class="card-header">
           <div class="card-icon">🌿</div>
           <div>
@@ -414,13 +529,17 @@
         <p>
           A full garden-management platform for tracking plants from seed to harvest — plantings, journal
           entries, yields, and seasonal history, with QR-code plant tags for at-a-glance access out in the
-          garden. The most complete of my self-hosted apps: multi-user with admin controls, audit logging,
-          and a data model that's evolved through 45+ schema migrations as real usage uncovered new needs.
+          garden, a kitchen module for tracking what happens to the harvest after it's picked, and photo
+          backup to Google Photos. Installable as a phone app. The most complete of my self-hosted apps:
+          multi-user with admin controls, audit logging, an in-app feedback and ticketing system, and a data
+          model that's evolved through 45+ schema migrations as real usage uncovered new needs.
         </p>
         <div class="tag-list">
           <span class="tag">Python / Flask</span>
           <span class="tag">SQLite</span>
           <span class="tag">Gunicorn</span>
+          <span class="tag">PWA</span>
+          <span class="tag">Google Photos API</span>
           <span class="tag">SSL / HTTPS</span>
           <span class="tag">Nginx</span>
           <span class="tag">Self-hosted</span>
@@ -439,13 +558,12 @@
           </p>
         </details>
         <div class="card-footer">
-          <a class="card-link" href="https://fritsch-nas.myasustor.com:7783/GardenBuddy" target="_blank">Live Demo (login required) →</a>
-          <a class="card-link" href="https://github.com/johnmfritsch/gardenbuddy" target="_blank">View on GitHub →</a>
+          <a class="card-link" href="https://fritsch-nas.myasustor.com:7783/GardenBuddy" target="_blank" rel="noopener noreferrer">Live Site (account required) →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/gardenbuddy" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
         </div>
       </div>
 
       <div class="card">
-        <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank" aria-label="Open JobSearch"></a>
         <div class="card-header">
           <div class="card-icon">🔍</div>
           <div>
@@ -475,8 +593,8 @@
           </p>
         </details>
         <div class="card-footer">
-          <a class="card-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank">Live Demo (login required) →</a>
-          <a class="card-link" href="https://github.com/johnmfritsch/jobsearch" target="_blank">View on GitHub →</a>
+          <a class="card-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank" rel="noopener noreferrer">Live Site (account required) →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/jobsearch" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
         </div>
       </div>
 
@@ -514,12 +632,11 @@
           </p>
         </details>
         <div class="card-footer">
-          <a class="card-link" href="https://github.com/johnmfritsch/plexifier" target="_blank">View on GitHub →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/plexifier" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
         </div>
       </div>
 
       <div class="card">
-        <a class="card-live-link" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank" aria-label="Open BorrowBuddy"></a>
         <div class="card-header">
           <div class="card-icon">📚</div>
           <div>
@@ -547,8 +664,8 @@
           </p>
         </details>
         <div class="card-footer">
-          <a class="card-link" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank">Live Demo (login required) →</a>
-          <a class="card-link" href="https://github.com/johnmfritsch/borrowbuddy" target="_blank">View on GitHub →</a>
+          <a class="card-link" href="https://fritsch-nas.myasustor.com:7781/BorrowBuddy" target="_blank" rel="noopener noreferrer">Live Site (account required) →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/borrowbuddy" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
         </div>
       </div>
 
@@ -584,52 +701,10 @@
           </p>
         </details>
         <div class="card-footer">
-          <a class="card-link" href="https://github.com/johnmfritsch/pingpong-scorekeeper" target="_blank">View on GitHub →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/pingpong-scorekeeper" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
         </div>
       </div>
 
-    </div>
-  </section>
-
-  <!-- INFRASTRUCTURE -->
-  <section>
-    <h2>Home Lab Infrastructure</h2>
-    <div class="infra-grid">
-      <div class="infra-item">
-        <h3>Compute &amp; Storage</h3>
-        <ul>
-          <li>ASUSTOR AS5202T NAS</li>
-          <li>7.3TB primary volume</li>
-          <li>Multiple Docker containers</li>
-        </ul>
-      </div>
-      <div class="infra-item">
-        <h3>Networking</h3>
-        <ul>
-          <li>Eero mesh (LAN)</li>
-          <li>Custom Nginx reverse proxy</li>
-          <li>External DNS + port forwarding</li>
-          <li>Firewall management</li>
-        </ul>
-      </div>
-      <div class="infra-item">
-        <h3>Web Stack</h3>
-        <ul>
-          <li>Nginx (custom + ADM)</li>
-          <li>Apache (ADM apps)</li>
-          <li>Flask apps (SSL direct)</li>
-          <li>Let's Encrypt TLS</li>
-        </ul>
-      </div>
-      <div class="infra-item">
-        <h3>Services Running</h3>
-        <ul>
-          <li>Plex Media Server</li>
-          <li>Tautulli (Docker)</li>
-          <li>IDrive cloud backup</li>
-          <li>3 self-built web apps + 2 desktop apps</li>
-        </ul>
-      </div>
     </div>
   </section>
 
@@ -642,28 +717,65 @@
         <div class="role">Senior IT Systems Analyst</div>
         <div class="company">PPL Corporation — Allentown, PA</div>
         <div class="period">2018 – 2025</div>
-        <p>Automated router firmware rollout across 3,000+ Cisco/Nokia switches and built a proactive Azure monitor that resolved user session issues before impact. Reduced incident resolution time 20% as Major Incident Manager; SME for SolarWinds/SCOM monitoring of critical IT/OT systems.</p>
+        <ul>
+          <li>Automated the rollout, installation, and verification of router firmware across 3,000+ Cisco and Nokia switches, replacing a manual device-by-device process with a scripted workflow that ensured consistent, error-free deployments enterprise-wide.</li>
+          <li>Built a proactive Azure monitor that detected and programmatically cleared user session issues in real time — resolving problems before users were impacted and eliminating the help-desk ticket, escalation, and hands-on remediation chain entirely.</li>
+          <li>Automated real-time storm-mode monitoring in PowerShell, watching multiple critical systems against predefined thresholds, auto-remediating where possible and escalating where not, to protect the distribution center's ability to support customer restoration during major storms.</li>
+          <li>Reduced incident resolution time 20% as Major Incident Manager by strengthening root cause analysis and standardizing response.</li>
+          <li>Monitored critical IT and OT systems — networks, servers, databases, applications — with SolarWinds, SCOM, and custom utilities; served as SME for Microsoft System Center Operations Manager.</li>
+        </ul>
       </div>
 
       <div class="timeline-item">
         <div class="role">Senior Developer</div>
         <div class="company">PPL Corporation — Allentown, PA</div>
         <div class="period">2016 – 2018</div>
-        <p>Developed telephony campaigns and automation using C#, SSIS, SSRS, SQL Server. Increased customer contact rates 25%; reduced trouble tickets 33%.</p>
+        <ul>
+          <li>Managed Outbound Dialer operations, developing collections campaigns and automated reminder calls with Microsoft SSIS, SSRS, Visual Studio, C#, TFS, and SQL Server.</li>
+          <li>Increased customer contact rates 25% by optimizing telephony campaigns and supporting the Customer Contact Center team.</li>
+          <li>Reduced trouble tickets 33% by delivering runbooks to the Customer Contact Center; streamlined reporting with data transformation scripts.</li>
+        </ul>
       </div>
 
       <div class="timeline-item">
-        <div class="role">IT Systems Engineer-Specialist / Storage & VM Admin / UNIX Admin</div>
-        <div class="company">PPL Corporation (via Computer Aid) — Allentown, PA</div>
-        <div class="period">2010 – 2016</div>
-        <p>Level 3 support for Business Solutions; VMware/SAN administration; Linux and HP-UX server management; data center migration.</p>
+        <div class="role">IT Systems Engineer – Specialist</div>
+        <div class="company">PPL Corporation (Computer Aid contractor) — Allentown, PA</div>
+        <div class="period">2014 – 2016</div>
+        <ul>
+          <li>Provided Level 3 technical support for the Business Solutions organization — the escalation team for Linux / HP-UX / Windows, Java, Oracle / SQL databases, networks, firewalls, and performance tuning.</li>
+          <li>Hired on as a full-time PPL employee in 2016 after six years contracting through Computer Aid.</li>
+        </ul>
       </div>
 
       <div class="timeline-item">
-        <div class="role">Subject Matter Expert — Interfaces &amp; UNIX Administration</div>
+        <div class="role">Storage / VM Administrator</div>
+        <div class="company">PPL Corporation (Computer Aid contractor) — Allentown, PA</div>
+        <div class="period">2013 – 2014</div>
+        <ul>
+          <li>Installed and managed HP chassis and blades via Onboard Administrator and iLO; configured VMware environments and IBM SAN storage to support enterprise operations.</li>
+          <li>Accelerated server provisioning through optimized VMware virtual machine and datastore setups.</li>
+          <li>Facilitated a full datacenter migration, transitioning all servers and applications to a new datacenter.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="role">UNIX System Administrator</div>
+        <div class="company">PPL Corporation (Computer Aid contractor) — Allentown, PA</div>
+        <div class="period">2010 – 2013</div>
+        <ul>
+          <li>Managed Linux and HP-UX servers — OS installation, firewall configuration, patching, and hardware / software support.</li>
+          <li>Enhanced system reliability through proactive maintenance and patch management; supported business continuity by conducting drills to validate operational resilience.</li>
+        </ul>
+      </div>
+
+      <div class="timeline-item">
+        <div class="role">Subject Matter Expert – Interfaces &amp; UNIX Administration</div>
         <div class="company">Lehigh Valley Hospital — Allentown, PA</div>
         <div class="period">1992 – 2009</div>
-        <p>Led interface development and UNIX administration team delivering 100+ HL7 interfaces and maintaining 60+ servers across systems including McKesson, MEDITECH, GE Centricity, and NextGen.</p>
+        <ul>
+          <li>Led interface development and UNIX administration, delivering 100+ HL7 interfaces and maintaining 60+ servers — boosting system reliability and team efficiency through mentorship and technical expertise.</li>
+          <li>Improved patient data accuracy and access with HL7, FTP, XML, and X12 interfaces over MLLP for systems including McKesson (HBOC), MEDITECH, GE Centricity, NextGen, IDX, Sunquest, and Pyxis.</li>
+        </ul>
       </div>
 
     </div>
@@ -671,15 +783,23 @@
 
   <!-- EDUCATION -->
   <section>
-    <h2>Education, Certifications &amp; Training</h2>
+    <h2>Education, Training &amp; Certifications</h2>
+    <div class="edu-group">Education</div>
     <ul class="edu-list">
-      <li><strong>MBA</strong> — Cedar Crest College, Allentown, PA</li>
+      <li><strong>Master of Business Administration (MBA)</strong> — Cedar Crest College, Allentown, PA</li>
       <li><strong>BS, Computer Science</strong> — DeSales University, Center Valley, PA</li>
-      <li>Cloud &amp; Datacenter Monitoring with SCOM — PPL, Virtual</li>
-      <li>Interaction Dialer Certified Engineer (IDCE) — PPL, Virtual</li>
-      <li>Leadership Effectiveness Training — PPL, Virtual</li>
-      <li>Administering the CIC System — PPL, Virtual</li>
-      <li>SAN Administration — PPL, Allentown, PA</li>
+    </ul>
+    <div class="edu-group">Training &amp; Certifications</div>
+    <ul class="edu-list">
+      <li>Cloud &amp; Datacenter Monitoring with SCOM — PPL</li>
+      <li>Interaction Dialer Certified Engineer (IDCE) — PPL</li>
+      <li>Leadership Effectiveness Training — PPL</li>
+      <li>Administering the CIC System — PPL</li>
+      <li>SAN Administration — PPL</li>
+      <li>HP-UX Logical Volume Manager — Hewlett Packard</li>
+      <li>PeopleTools 8 Installation — PeopleSoft</li>
+      <li>Project Management Certification — PMLG</li>
+      <li>Migrating to eBiz Impact / Mastering Sybase Impact — Sybase</li>
     </ul>
   </section>
 
