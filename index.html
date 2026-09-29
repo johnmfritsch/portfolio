@@ -346,7 +346,7 @@
     software and automating IT processes end to end.
   </p>
   <div class="contact-links">
-    <a href="https://drive.google.com/file/d/1BRCH1F-PrVyvkU68Er1Ca2jASjPrn-4H/view?usp=drive_link" target="_blank" rel="noopener noreferrer">View Résumé (PDF)</a>
+    <a href="https://docs.google.com/document/d/1BfHS2_6aiJKihIF8XM6ervNLcYam_aFF/edit?usp=sharing" target="_blank" rel="noopener noreferrer">View Résumé</a>
     <a href="mailto:johnmfritsch@gmail.com">johnmfritsch@gmail.com</a>
     <a href="https://www.linkedin.com/in/johnmfritsch/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     <a href="tel:6107513357">610.751.3357</a>
@@ -529,10 +529,13 @@
         <p>
           A full garden-management platform for tracking plants from seed to harvest — plantings, journal
           entries, yields, and seasonal history, with QR-code plant tags for at-a-glance access out in the
-          garden, a kitchen module for tracking what happens to the harvest after it's picked, and photo
-          backup to Google Photos. Installable as a phone app. The most complete of my self-hosted apps:
-          multi-user with admin controls, audit logging, an in-app feedback and ticketing system, and a data
-          model that's evolved through 45+ schema migrations as real usage uncovered new needs.
+          garden and photo backup to Google Photos. A Seed Bank traces saved seed back to the plant it came
+          from, generation after generation; Harvest Watch forecasts each plant's first harvest from your own
+          growing history and flags crops coming due; and the kitchen module follows the harvest after it's
+          picked, logging multi-step activities (cook it, preserve part, give some away) in one entry.
+          Installable as a phone app. The most complete of my self-hosted apps: multi-user with admin
+          controls, audit logging, an in-app feedback and ticketing system, and a data model that's evolved
+          through 90+ schema migrations as real usage uncovered new needs.
         </p>
         <div class="tag-list">
           <span class="tag">Python / Flask</span>
@@ -572,28 +575,34 @@
           </div>
         </div>
         <p>
-          Multi-user job search aggregator with per-user keyword filters, blocked-word rules, and a
-          personal dashboard for tracking applications. PHP frontend proxies to a Python API backend
-          with dev and prod environments.
+          Multi-user job search platform: saved search roles, each with its own résumé, pull listings from
+          job APIs and straight from employer career sites, score them against that résumé, and feed an
+          application tracker from Saved through Offer. An optional supervised assistant prepares
+          applications and AI-tailored documents — but nothing is submitted without explicit approval.
         </p>
         <div class="tag-list">
-          <span class="tag">Python</span>
-          <span class="tag">PHP</span>
-          <span class="tag">REST API</span>
+          <span class="tag">Python / Flask</span>
+          <span class="tag">SQLite</span>
+          <span class="tag">Gunicorn</span>
+          <span class="tag">Playwright</span>
+          <span class="tag">LLM APIs</span>
           <span class="tag">Multi-user</span>
           <span class="tag">Self-hosted</span>
         </div>
         <details class="card-details">
           <summary>Technical Details</summary>
           <p>
-            PHP frontend proxies to a Python API backend, with each user's keyword include/block lists
-            baked into their own personalized dashboard page rather than fetched at runtime. Dev and prod
-            run as fully isolated Python API instances behind the same reverse proxy, selected by a query
-            parameter in the PHP proxy layer, with per-user access logging.
+            Rebuilt in 2026 from a PHP-proxy design into a single authenticated Flask app with server-side
+            sessions. Searches run as a detached pipeline that survives a server restart, and every
+            candidate job keeps a decision trail showing which filter or score let it through or ruled it
+            out. "Priority employer" adapters read Workday, SuccessFactors, UKG, and iCIMS career sites
+            directly at no API cost, through a hardened fetcher (HTTPS-only, DNS-pinned, same-host) so
+            user-supplied URLs can't reach internal addresses. AI tailoring (OpenAI, Claude, or Grok) is
+            opt-in, constrained to facts in the source résumé, and every generated document needs approval.
           </p>
         </details>
         <div class="card-footer">
-          <a class="card-link" href="https://fritsch-nas.myasustor.com:7779/JobSearch/John/" target="_blank" rel="noopener noreferrer">Live Site (account required) →</a>
+          <a class="card-link" href="https://fritsch-nas.myasustor.com:7787/JobSearch" target="_blank" rel="noopener noreferrer">Live Site (account required) →</a>
           <a class="card-link" href="https://github.com/johnmfritsch/jobsearch" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
         </div>
       </div>
@@ -626,7 +635,9 @@
             The decision engine probes each file's container, video codec, and audio streams with ffprobe,
             then picks the cheapest tier that produces a Plex-ready result — avoiding the common mistake of
             blindly re-encoding an entire library when most files only need a container swap or an audio
-            pass. Ships as a ~6,700-line PowerShell WinForms app bundling its own PowerShell 7, HandBrakeCLI,
+            pass. Encodes on an NVIDIA GPU (NVENC) with up to six files running concurrently, falling back
+            to x264 on machines without one, and its batch ETA calibrates itself from measured throughput.
+            Ships as a ~8,400-line PowerShell WinForms app bundling its own PowerShell 7, HandBrakeCLI,
             and ffmpeg — zero install footprint on the target machine — with a pre-flight-checking launcher
             and per-run debug logging for troubleshooting.
           </p>
