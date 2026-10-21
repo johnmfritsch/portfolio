@@ -67,6 +67,19 @@
       transition: background 0.2s;
     }
     .contact-links a:hover { background: #2d7dd220; }
+    /* Phone: tap-to-call link on touch screens; same-looking plain text (selectable, not clickable) with a mouse. */
+    .contact-links .contact-static {
+      color: #2d7dd2;
+      font-size: 0.9rem;
+      border: 1px solid #2d7dd2;
+      padding: 0.35rem 0.85rem;
+      border-radius: 4px;
+      display: none;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .contact-links a.contact-tel { display: none; }
+      .contact-links .contact-static { display: inline-block; }
+    }
     a:focus-visible,
     summary:focus-visible {
       outline: 2px solid #93c5fd;
@@ -360,8 +373,9 @@
 
     /* ── Screenshots ── */
     .shots { display: grid; gap: 0.9rem; margin: 0.25rem 0 1.1rem; align-items: start; }
-    .shots--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .shots--3 .shot--full { grid-column: 1 / -1; }
+    .shots--gb { grid-template-columns: minmax(0, 0.55fr) repeat(2, minmax(0, 1fr)); }
+    .shots--gb .shot--tall { grid-column: 1; grid-row: 1 / span 2; }
+    .shots--gb .shot--full { grid-column: 2 / -1; }
     .shot { margin: 0; min-width: 0; }
     .shot a { display: block; border-radius: 6px; }
     .shot img {
@@ -394,7 +408,9 @@
     .jump a:hover { color: #2d7dd2; }
 
     @media (max-width: 700px) {
-      .shots--3 { grid-template-columns: 1fr; }
+      .shots--gb { grid-template-columns: 1fr; }
+      .shots--gb .shot--tall, .shots--gb .shot--full { grid-column: auto; grid-row: auto; }
+      .shots--gb .shot--tall img { max-width: 280px; }
     }
 
     @media (max-width: 600px) {
@@ -418,7 +434,8 @@
     <a href="https://docs.google.com/document/d/1BfHS2_6aiJKihIF8XM6ervNLcYam_aFF/edit?usp=sharing" target="_blank" rel="noopener noreferrer">View Résumé</a>
     <a href="mailto:johnmfritsch@gmail.com">johnmfritsch@gmail.com</a>
     <a href="https://www.linkedin.com/in/johnmfritsch/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-    <a href="tel:6107513357">610.751.3357</a>
+    <a class="contact-tel" href="tel:6107513357">610.751.3357</a>
+    <span class="contact-static">610.751.3357</span>
   </div>
   <nav class="jump" aria-label="Sections"><a href="#home-lab">Home lab</a>·<a href="#projects">Projects</a>·<a href="#skills">Skills</a>·<a href="#experience">Experience</a></nav>
 </header>
@@ -436,12 +453,15 @@
       <strong>Select an app in the diagram to jump to its project.</strong>
     </p>
     <div class="arch">
-      <svg class="arch-svg" viewBox="0 0 1000 610" role="group" aria-labelledby="archTitle archDesc" xmlns="http://www.w3.org/2000/svg">
+      <svg class="arch-svg" viewBox="0 0 1000 740" role="group" aria-labelledby="archTitle archDesc" xmlns="http://www.w3.org/2000/svg">
         <title id="archTitle">Home lab architecture</title>
-        <desc id="archDesc">Internet users reach the NAS through dynamic DNS and an Eero router that forwards one high port per app. On the NAS, GardenBuddy, JobSearch and BorrowBuddy each run as Flask and Gunicorn with their own TLS, a prod and a dev instance, and their own SQLite database. A custom Nginx routes LAN traffic on port 443; Docker runs Tautulli and a Playwright worker; Plex serves media. Operations include a boot hook that restarts every app, a watchdog that health-checks every app, restarts a hung one and sends Pushbullet alerts, and scripted dev-to-prod releases. A Windows PC on the home network runs the desktop apps, PingPong Scorekeeper and Plexifier, which converts media on the NAS share. The NAS backs up nightly to IDrive and publishes curated source to GitHub, which also hosts this portfolio. Each app box links to its project below.</desc>
+        <desc id="archDesc">Internet users look up the NAS's dynamic DNS name, which the NAS keeps pointed at the home IP, then connect through an Eero router that forwards each app's port to the NAS. On the NAS run three web apps: GardenBuddy, a garden journal; JobSearch, which finds and scores jobs and tracks applications; and BorrowBuddy, a lending tracker. A custom Nginx gives LAN paths to two dev environments; Docker runs Tautulli and a Playwright worker; Plex serves media. Operations include a boot hook that restarts every app, a watchdog that health-checks every app, restarts a hung one and sends Pushbullet alerts, and scripted dev-to-prod releases. A shared backlog kit gives the apps the same plan, review, build, test and release workflow, and each release marks the items it shipped as done. A Windows PC on the home network runs the desktop apps: PingPong Scorekeeper, which records game data and creates reports, and Plexifier, which converts video on the NAS share to a format Plex can Direct Play. The PC also runs the publishing tools, which read each app's source from the NAS share, export it leak-audited to GitHub and run a monthly drift report; GitHub's Pages service hosts this portfolio. The NAS backs up nightly to IDrive. Each app box links to its project below.</desc>
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="#2d7dd2"/>
+          </marker>
+          <marker id="arrow-d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
           </marker>
         </defs>
         <style>
@@ -454,6 +474,7 @@
           .mono { fill: #cbd5e1; font: 12px Consolas, Menlo, monospace; }
           .flow { fill: none; stroke: #2d7dd2; stroke-width: 1.8; }
           .flow-d { fill: none; stroke: #64748b; stroke-width: 1.6; stroke-dasharray: 5 4; }
+          .flow-dot { fill: none; stroke: #64748b; stroke-width: 1.8; stroke-dasharray: 1.5 3.5; stroke-linecap: round; }
           .note { fill: #64748b; font: italic 11.5px -apple-system, "Segoe UI", Roboto, sans-serif; }
           .go { fill: #2d7dd2; font: 600 14px -apple-system, "Segoe UI", Roboto, sans-serif; }
           .app-link { cursor: pointer; }
@@ -465,66 +486,64 @@
 
         <!-- Users -->
         <text class="lbl" x="20" y="44">Users</text>
-        <rect class="box" x="20" y="56" width="180" height="78" rx="8"/>
-        <text class="t" x="34" y="86">Internet users</text>
-        <text class="s" x="34" y="108">phones &amp; browsers</text>
-        <text class="s" x="34" y="125">(apps install as PWAs)</text>
-        <rect class="box" x="20" y="300" width="180" height="70" rx="8"/>
-        <text class="t" x="34" y="330">Home network</text>
-        <text class="s" x="34" y="352">LAN devices</text>
+        <rect class="box" x="20" y="56" width="180" height="96" rx="8"/>
+        <text class="t" x="34" y="84">Internet users</text>
+        <text class="s" x="34" y="106">phones &amp; browsers;</text>
+        <text class="s" x="34" y="123">the web apps install</text>
+        <text class="s" x="34" y="140">as PWAs</text>
+        <rect class="box" x="20" y="320" width="180" height="70" rx="8"/>
+        <text class="t" x="34" y="350">Home network</text>
+        <text class="s" x="34" y="372">LAN devices</text>
 
         <!-- Edge -->
         <text class="lbl" x="235" y="44">Edge</text>
-        <rect class="box" x="235" y="56" width="195" height="78" rx="8"/>
-        <text class="t" x="249" y="86">Dynamic DNS</text>
-        <text class="mono" x="249" y="110">fritsch-nas.</text>
-        <text class="mono" x="249" y="126">myasustor.com</text>
-        <rect class="box" x="235" y="160" width="195" height="100" rx="8"/>
-        <text class="t" x="249" y="190">Eero router</text>
-        <text class="s" x="249" y="212">forwards one high port</text>
-        <text class="s" x="249" y="229">per app (inbound 80 and</text>
-        <text class="s" x="249" y="246">443 are blocked)</text>
-
-        <path class="flow" d="M200,95 L232,95" marker-end="url(#arrow)"/>
-        <path class="flow" d="M200,120 C218,120 214,205 232,205" marker-end="url(#arrow)"/>
-        <path class="flow" d="M430,205 L470,205 L470,140 L478,140" marker-end="url(#arrow)"/>
+        <rect class="box" x="235" y="56" width="195" height="110" rx="8"/>
+        <text class="t" x="249" y="84">Dynamic DNS</text>
+        <text class="mono" x="249" y="105">fritsch-nas.</text>
+        <text class="mono" x="249" y="120">myasustor.com</text>
+        <text class="s" x="249" y="141">name → home IP, kept</text>
+        <text class="s" x="249" y="157">current by the NAS</text>
+        <rect class="box" x="235" y="196" width="195" height="78" rx="8"/>
+        <text class="t" x="249" y="224">Eero router</text>
+        <text class="s" x="249" y="246">forwards each app's</text>
+        <text class="s" x="249" y="263">port to the NAS</text>
 
         <!-- NAS -->
-        <rect class="nas" x="462" y="14" width="526" height="474" rx="12"/>
+        <rect class="nas" x="462" y="14" width="526" height="590" rx="12"/>
         <text class="t" x="480" y="42">ASUSTOR AS5202T NAS</text>
         <text class="s" x="480" y="61">16 GB RAM · 7.3 TB volume · Linux (ADM)</text>
 
-        <text class="lbl" x="480" y="90">Web apps · Flask + Gunicorn · TLS per app</text>
+        <text class="lbl" x="480" y="90">Web apps</text>
         <a class="app-link" href="#gardenbuddy" aria-label="GardenBuddy: jump to project">
           <rect class="box-app" x="480" y="100" width="157" height="96" rx="8"/>
           <text class="t" x="493" y="127">GardenBuddy</text>
           <text class="go" x="622" y="127" text-anchor="end">↓</text>
-          <text class="mono" x="493" y="150">prod :7783</text>
-          <text class="mono" x="493" y="167">dev  :7784</text>
-          <text class="s" x="493" y="186">SQLite · 100+ migrations</text>
+          <text class="s" x="493" y="150">garden journal: plants,</text>
+          <text class="s" x="493" y="167">harvests and photos,</text>
+          <text class="s" x="493" y="184">harvest forecasts</text>
         </a>
         <a class="app-link" href="#jobsearch" aria-label="JobSearch: jump to project">
           <rect class="box-app" x="649" y="100" width="157" height="96" rx="8"/>
           <text class="t" x="662" y="127">JobSearch</text>
           <text class="go" x="791" y="127" text-anchor="end">↓</text>
-          <text class="mono" x="662" y="150">prod :7787</text>
-          <text class="mono" x="662" y="167">dev  :7788</text>
-          <text class="s" x="662" y="186">SQLite · detached jobs</text>
+          <text class="s" x="662" y="150">finds and scores jobs</text>
+          <text class="s" x="662" y="167">against your résumé,</text>
+          <text class="s" x="662" y="184">tracks applications</text>
         </a>
         <a class="app-link" href="#borrowbuddy" aria-label="BorrowBuddy: jump to project">
           <rect class="box-app" x="818" y="100" width="157" height="96" rx="8"/>
           <text class="t" x="831" y="127">BorrowBuddy</text>
           <text class="go" x="960" y="127" text-anchor="end">↓</text>
-          <text class="mono" x="831" y="150">prod :7781</text>
-          <text class="mono" x="831" y="167">dev  :7782</text>
-          <text class="s" x="831" y="186">SQLite · item photos</text>
+          <text class="s" x="831" y="150">tracks what you lent,</text>
+          <text class="s" x="831" y="167">to whom, and when</text>
+          <text class="s" x="831" y="184">it's due back</text>
         </a>
 
         <text class="lbl" x="480" y="226">Platform services</text>
         <rect class="box" x="480" y="236" width="157" height="72" rx="8"/>
         <text class="t" x="493" y="263">Custom Nginx</text>
-        <text class="s" x="493" y="284">:443 LAN path routing</text>
-        <text class="s" x="493" y="300">to dev environments</text>
+        <text class="s" x="493" y="284">LAN paths on :443 to</text>
+        <text class="s" x="493" y="300">two dev environments</text>
         <rect class="box" x="649" y="236" width="157" height="72" rx="8"/>
         <text class="t" x="662" y="263">Docker</text>
         <text class="s" x="662" y="284">Tautulli · Playwright</text>
@@ -554,47 +573,81 @@
         <text class="s" x="831" y="430">health-gated restart,</text>
         <text class="s" x="831" y="447">stamped release notes</text>
 
-        <path class="flow" d="M200,335 L440,335 L440,272 L476,272" marker-end="url(#arrow)"/>
+        <text class="lbl" x="480" y="502">Development workflow</text>
+        <a class="app-link" href="#backlog-kit" aria-label="Backlog Kit: jump to project">
+          <rect class="box-app" x="480" y="512" width="495" height="78" rx="8"/>
+          <text class="t" x="493" y="538">Backlog Kit</text>
+          <text class="go" x="960" y="538" text-anchor="end">↓</text>
+          <text class="s" x="493" y="560">one plan → review → build → test → release workflow, shared across apps;</text>
+          <text class="s" x="493" y="577">each release marks the items it shipped as done</text>
+        </a>
+        <path class="flow-d" d="M935,476 L935,508" marker-start="url(#arrow-d)" marker-end="url(#arrow-d)"/>
+
+        <!-- Edge flows (drawn after the NAS so the arrowheads stay on top) -->
+        <path class="flow-dot" d="M200,92 L231,92" marker-end="url(#arrow-d)"/>
+        <path class="flow-dot" d="M462,140 L434,140" marker-end="url(#arrow-d)"/>
+        <path class="flow" d="M200,130 L213,130 L213,235 L231,235" marker-end="url(#arrow)"/>
+        <path class="flow" d="M430,235 L446,235 L446,150 L476,150" marker-end="url(#arrow)"/>
+        <path class="flow" d="M200,355 L440,355 L440,272 L476,272" marker-end="url(#arrow)"/>
 
         <!-- Off-box -->
-        <text class="lbl" x="480" y="526">Off the box</text>
-        <rect class="box" x="480" y="536" width="240" height="64" rx="8"/>
-        <text class="t" x="494" y="563">IDrive</text>
-        <text class="s" x="494" y="584">nightly offsite backup</text>
-        <rect class="box" x="735" y="536" width="240" height="64" rx="8"/>
-        <text class="t" x="749" y="563">GitHub</text>
-        <text class="s" x="749" y="584">curated, leak-audited source · this page</text>
-        <path class="flow-d" d="M600,488 L600,532" marker-end="url(#arrow)"/>
-        <path class="flow-d" d="M855,488 L855,532" marker-end="url(#arrow)"/>
+        <text class="lbl" x="480" y="642">Off the box</text>
+        <rect class="box" x="480" y="652" width="150" height="72" rx="8"/>
+        <text class="t" x="493" y="679">IDrive</text>
+        <text class="s" x="493" y="700">nightly offsite</text>
+        <text class="s" x="493" y="716">backup</text>
+        <rect class="box" x="646" y="652" width="150" height="72" rx="8"/>
+        <text class="t" x="659" y="679">GitHub</text>
+        <text class="s" x="659" y="700">curated, leak-audited</text>
+        <text class="s" x="659" y="716">public source</text>
+        <a class="app-link" href="#portfolio" aria-label="Portfolio: jump to project">
+          <rect class="box-app" x="818" y="652" width="157" height="72" rx="8"/>
+          <text class="t" x="831" y="679">Portfolio</text>
+          <text class="go" x="960" y="679" text-anchor="end">↓</text>
+          <text class="s" x="831" y="700">this page: projects,</text>
+          <text class="s" x="831" y="716">experience and skills</text>
+        </a>
+        <path class="flow-d" d="M600,604 L600,648" marker-end="url(#arrow-d)"/>
+        <path class="flow-d" d="M796,688 L814,688" marker-end="url(#arrow-d)"/>
 
         <!-- Windows PC -->
-        <text class="lbl" x="20" y="402">Desktop apps</text>
-        <rect class="box" x="20" y="412" width="410" height="116" rx="8"/>
-        <text class="t" x="34" y="438">Windows PC</text>
+        <text class="lbl" x="20" y="422">Desktop apps and tools</text>
+        <rect class="box" x="20" y="432" width="410" height="228" rx="8"/>
+        <rect class="box" x="34" y="576" width="382" height="70" rx="8"/>
+        <text class="t" x="46" y="600">Publishing &amp; drift check</text>
+        <text class="s" x="46" y="621">exports each app's source to GitHub, audited for leaks;</text>
+        <text class="s" x="46" y="638">monthly report flags stale repos and portfolio figures</text>
+        <path class="flow-d" d="M416,620 L740,620 L740,648" marker-end="url(#arrow-d)"/>
+        <path class="flow-d" d="M462,594 L420,594" marker-end="url(#arrow-d)"/>
+        <text class="t" x="34" y="458">Windows PC</text>
         <a class="app-link" href="#pingpong" aria-label="PingPong Scorekeeper: jump to project">
-          <rect class="box-app" x="34" y="452" width="212" height="62" rx="8"/>
-          <text class="t" x="46" y="477">PingPong Scorekeeper</text>
-          <text class="go" x="234" y="477" text-anchor="end">↓</text>
-          <text class="s" x="46" y="499">stats in Google Sheets</text>
+          <rect class="box-app" x="34" y="472" width="212" height="92" rx="8"/>
+          <text class="t" x="46" y="497">PingPong Scorekeeper</text>
+          <text class="go" x="234" y="497" text-anchor="end">↓</text>
+          <text class="s" x="46" y="519">records game data and</text>
+          <text class="s" x="46" y="536">creates reports</text>
         </a>
         <a class="app-link" href="#plexifier" aria-label="Plexifier: jump to project">
-          <rect class="box-app" x="258" y="452" width="158" height="62" rx="8"/>
-          <text class="t" x="270" y="477">Plexifier</text>
-          <text class="go" x="404" y="477" text-anchor="end">↓</text>
-          <text class="s" x="270" y="499">converts Plex media</text>
+          <rect class="box-app" x="258" y="472" width="158" height="92" rx="8"/>
+          <text class="t" x="270" y="497">Plexifier</text>
+          <text class="go" x="404" y="497" text-anchor="end">↓</text>
+          <text class="s" x="270" y="519">converts video to a</text>
+          <text class="s" x="270" y="536">standard format Plex</text>
+          <text class="s" x="270" y="553">can Direct Play</text>
         </a>
-        <path class="flow-d" d="M416,470 L458,470" marker-end="url(#arrow)"/>
+        <path class="flow-d" d="M416,518 L458,518" marker-end="url(#arrow-d)"/>
 
-        <text class="note" x="20" y="572">Solid: user traffic</text>
-        <text class="note" x="20" y="592">Dashed: backup, publishing, file share</text>
+        <text class="note" x="20" y="688">Solid: user traffic</text>
+        <text class="note" x="20" y="706">Dotted: DNS name lookup and update</text>
+        <text class="note" x="20" y="724">Dashed: backup, publishing, file share, release ↔ backlog</text>
       </svg>
     </div>
     <details class="card-details arch-details">
       <summary>Design decisions</summary>
       <p>
-        The router blocks inbound 80/443, so each externally reachable app terminates its own TLS on a
-        dedicated forwarded port instead of sharing one proxy. A custom Nginx instance path-routes LAN traffic
-        on 443 alongside the NAS vendor's own proxy without colliding with it. Boot-time persistence (app
+        Each externally reachable app terminates its own TLS on its own forwarded port instead of sharing one
+        front proxy, so each app is reached, restarted and monitored on its own. A custom Nginx instance
+        path-routes LAN traffic on 443 alongside the NAS vendor's own proxy without colliding with it. Boot-time persistence (app
         auto-start, kernel tuning) survives vendor firmware updates through a root-level init hook rather than
         config files the firmware rebuilds on every boot, and every SSL app waits for the certificate to exist
         before it starts, which fixed a boot-order race that once left apps down after a reboot. Public code
@@ -639,10 +692,11 @@
           <li><strong>Kitchen</strong> follows the harvest after it's picked, logging multi-step work (cook it, preserve part, give some away) as one entry.</li>
           <li><strong>Harvest analytics</strong> show charts over time, crop mix, per-plant timing and germination rates, with CSV export.</li>
         </ul>
-        <div class="shots shots--3">
+        <div class="shots shots--gb">
           <figure class="shot"><a href="assets/shots/gb-home.webp" target="_blank" rel="noopener"><img src="assets/shots/gb-home.webp" alt="GardenBuddy home screen with Harvest Watch, crop-info and frost-season alerts above the main menu" loading="lazy" width="1316" height="909"></a><figcaption>Home, with live alerts</figcaption></figure>
           <figure class="shot"><a href="assets/shots/gb-harvest-chart.webp" target="_blank" rel="noopener"><img src="assets/shots/gb-harvest-chart.webp" alt="Harvest Report chart showing weekly harvested items stacked by crop" loading="lazy" width="1307" height="716"></a><figcaption>Harvest Report, by crop</figcaption></figure>
           <figure class="shot shot--full"><a href="assets/shots/gb-forecast.webp" target="_blank" rel="noopener"><img src="assets/shots/gb-forecast.webp" alt="Harvest Forecast card explaining an expected harvest window based on prior plantings" loading="lazy" width="1307" height="330"></a><figcaption>Harvest Forecast explains its estimate</figcaption></figure>
+          <figure class="shot shot--tall"><a href="assets/shots/gb-menu.webp" target="_blank" rel="noopener"><img src="assets/shots/gb-menu.webp" alt="GardenBuddy menu with My Plants, Journal, Harvest, Kitchen, Reports and Records &amp; Tools, then Settings, Help, Feedback with an unread count, and Admin" loading="lazy" width="279" height="761"></a><figcaption>Main menu</figcaption></figure>
         </div>
         <div class="tag-list">
           <span class="tag">Python / Flask</span>
@@ -716,6 +770,48 @@
         <div class="card-footer">
           <a class="card-link" href="https://fritsch-nas.myasustor.com:7787/JobSearch" target="_blank" rel="noopener noreferrer">Live Site (account required) →</a>
           <a class="card-link" href="https://github.com/johnmfritsch/jobsearch" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+        </div>
+      </div>
+
+      <div class="card" id="pingpong">
+        <div class="card-header">
+          <div class="card-icon">🏓</div>
+          <div>
+            <div class="card-type">Desktop Application</div>
+            <h3>PingPong Scorekeeper</h3>
+          </div>
+        </div>
+        <p class="pr"><span class="pr-label">Problem</span>Like bowling before automatic scoring, table tennis
+          at home ran on memory: the players had to keep the score and whose serve it was in their heads, and
+          once a game ended the result was gone, so there was no record of who was winning over time.</p>
+        <p class="pr"><span class="pr-label">Result</span>A scoring app that tracks the score and the serve
+          and calls both aloud, supports House and official ITTF rules, and can undo any point. Every game is
+          saved to Google Sheets automatically, building a running history of records, milestones and
+          streaks.</p>
+        <div class="shots">
+          <figure class="shot"><a href="assets/shots/pp-setup.webp" target="_blank" rel="noopener"><img src="assets/shots/pp-setup.webp" alt="Game setup screen with player name pickers, first server, House or ITTF rules, and Stats, Settings and What's New buttons" loading="lazy" width="680" height="500"></a><figcaption>Game setup: House or ITTF rules</figcaption></figure>
+          <figure class="shot"><a href="assets/shots/pp-scoreboard.webp" target="_blank" rel="noopener"><img src="assets/shots/pp-scoreboard.webp" alt="PingPong Scorekeeper scoreboard with each player's score, the current server, timeouts, a table graphic showing the serving side, and the reigning champion" loading="lazy" width="1400" height="711"></a><figcaption>Live scoreboard</figcaption></figure>
+          <figure class="shot"><a href="assets/shots/pp-stats.webp" target="_blank" rel="noopener"><img src="assets/shots/pp-stats.webp" alt="Ping Pong daily report with games summary, new records and milestones, and current win and loss streaks, with a menu of stats views" loading="lazy" width="1400" height="766"></a><figcaption>Daily stats report: records, milestones, streaks</figcaption></figure>
+        </div>
+        <div class="tag-list">
+          <span class="tag">Python</span>
+          <span class="tag">Tkinter</span>
+          <span class="tag">Google Sheets API</span>
+          <span class="tag">Text-to-Speech</span>
+          <span class="tag">PyInstaller</span>
+        </div>
+        <details class="card-details">
+          <summary>Technical Details</summary>
+          <p>
+            Tkinter desktop app driven by immutable state snapshots (<code>game_state.py</code>) for reliable
+            undo/redo through a live game, with a central manifest module handling config, assets, and
+            styling. Live text-to-speech score calls, milestone celebrations, and automatic per-game
+            persistence to Google Sheets through the Sheets API. Packaged as a standalone Windows executable
+            with PyInstaller.
+          </p>
+        </details>
+        <div class="card-footer">
+          <a class="card-link" href="https://github.com/johnmfritsch/pingpong-scorekeeper" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
         </div>
       </div>
 
@@ -795,45 +891,84 @@
         </div>
       </div>
 
-      <div class="card" id="pingpong">
+      <div class="card" id="backlog-kit">
         <div class="card-header">
-          <div class="card-icon">🏓</div>
+          <div class="card-icon">🗒️</div>
           <div>
-            <div class="card-type">Desktop Application</div>
-            <h3>PingPong Scorekeeper</h3>
+            <div class="card-type">Development Workflow</div>
+            <h3>Backlog Kit</h3>
           </div>
         </div>
-        <p class="pr"><span class="pr-label">Problem</span>Like bowling before automatic scoring, table tennis
-          at home ran on memory: the players had to keep the score and whose serve it was in their heads, and
-          once a game ended the result was gone, so there was no record of who was winning over time.</p>
-        <p class="pr"><span class="pr-label">Result</span>A scoring app that tracks the score and the serve
-          and calls both aloud, supports House and official ITTF rules, and can undo any point. Every game is
-          saved to Google Sheets automatically, building a running history of records, milestones and
-          streaks.</p>
-        <div class="shots">
-          <figure class="shot"><a href="assets/shots/pp-scoreboard.webp" target="_blank" rel="noopener"><img src="assets/shots/pp-scoreboard.webp" alt="PingPong Scorekeeper scoreboard with each player's score, the current server, timeouts, a table graphic showing the serving side, and the reigning champion" loading="lazy" width="1400" height="711"></a><figcaption>Live scoreboard</figcaption></figure>
-          <figure class="shot"><a href="assets/shots/pp-setup.webp" target="_blank" rel="noopener"><img src="assets/shots/pp-setup.webp" alt="Game setup screen with player name pickers, first server, House or ITTF rules, and Stats, Settings and What's New buttons" loading="lazy" width="680" height="500"></a><figcaption>Game setup: House or ITTF rules</figcaption></figure>
-          <figure class="shot"><a href="assets/shots/pp-stats.webp" target="_blank" rel="noopener"><img src="assets/shots/pp-stats.webp" alt="Ping Pong daily report with games summary, new records and milestones, and current win and loss streaks, with a menu of stats views" loading="lazy" width="1400" height="766"></a><figcaption>Daily stats report: records, milestones, streaks</figcaption></figure>
-        </div>
+        <p class="pr"><span class="pr-label">Problem</span>Several apps, three AI coding agents (Claude, Codex
+          and Grok) and one person directing them. Each app tracked its planned work differently, so it was
+          hard to see what was planned, reviewed, being built or shipped, and who had changed what.</p>
+        <p class="pr"><span class="pr-label">Result</span>One backlog system shared across my apps. Every
+          piece of work follows the same path, plan → review → build → test → release, and appears on the
+          same Backlog page in each app with its priority, dependencies and progress.</p>
+        <ul class="highlights">
+          <li>Each item keeps a history of who changed it, when and why, and counts its plan reviews.</li>
+          <li>A claim shows which agent owns an item, so two agents never build the same thing at once.</li>
+          <li>Releases close the loop: after a GardenBuddy deploy, each shipped item is marked done with its release version, and the in-app feedback tickets it fixed are resolved.</li>
+          <li>Each app keeps its own look; the logic lives in one shared package, so a fix lands everywhere.</li>
+        </ul>
         <div class="tag-list">
           <span class="tag">Python</span>
-          <span class="tag">Tkinter</span>
-          <span class="tag">Google Sheets API</span>
-          <span class="tag">Text-to-Speech</span>
-          <span class="tag">PyInstaller</span>
+          <span class="tag">Markdown</span>
+          <span class="tag">CLI</span>
+          <span class="tag">Multi-agent workflow</span>
         </div>
         <details class="card-details">
           <summary>Technical Details</summary>
           <p>
-            Tkinter desktop app driven by immutable state snapshots (<code>game_state.py</code>) for reliable
-            undo/redo through a live game, with a central manifest module handling config, assets, and
-            styling. Live text-to-speech score calls, milestone celebrations, and automatic per-game
-            persistence to Google Sheets through the Sheets API. Packaged as a standalone Windows executable
-            with PyInstaller.
+            A dependency-free Python package kept as a single copy on the NAS, which every app and my PC load
+            directly, so there is no second version to fall out of step. Backlog items are Markdown files: the
+            kit validates them, builds an index and renders the Backlog page, which each Flask app embeds in its
+            own template and themes with CSS variables. History entries, sign-offs and review counts are
+            written only through the kit's commands, never by hand. A <code>doctor</code> command flags a
+            project whose backlog has drifted from the shared copy, and a golden test checks the kit against
+            GardenBuddy's original backlog parser so the move changed nothing.
+          </p>
+        </details>
+      </div>
+
+      <div class="card" id="portfolio">
+        <div class="card-header">
+          <div class="card-icon">🗂️</div>
+          <div>
+            <div class="card-type">Static Website</div>
+            <h3>Personal Portfolio</h3>
+          </div>
+        </div>
+        <p class="pr"><span class="pr-label">Problem</span>A résumé can list skills but can't show working
+          software, and most of my apps sit behind a login where a reader can't see them.</p>
+        <p class="pr"><span class="pr-label">Result</span>One page, shared as a single link, that shows each
+          project's problem, result and screenshots, a clickable map of the home lab, and my skills and
+          experience. A monthly check keeps its links and numbers in line with the live apps.</p>
+        <div class="shots">
+          <figure class="shot"><a href="assets/shots/portfolio-top.webp" target="_blank" rel="noopener"><img src="assets/shots/portfolio-top.webp" alt="Top of this portfolio page: name, title, summary, contact links and the start of the home lab architecture diagram" loading="lazy" width="1280" height="760"></a><figcaption>This page on a desktop browser</figcaption></figure>
+        </div>
+        <div class="tag-list">
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">Inline SVG</span>
+          <span class="tag">GitHub Pages</span>
+          <span class="tag">Open Graph</span>
+          <span class="tag">Accessibility</span>
+        </div>
+        <details class="card-details">
+          <summary>Technical Details</summary>
+          <p>
+            A single static HTML page with inline CSS, hosted on GitHub Pages. The architecture diagram is
+            inline SVG whose app boxes are keyboard-focusable links to each project. Screenshots are WebP and
+            use sample data. Search and social-sharing metadata produce a preview card wherever the link is
+            pasted. On the 1st of each month, Windows Task Scheduler on my PC runs a read-only drift report: it
+            tests every external link on the page, re-checks card figures that can go stale (such as
+            GardenBuddy's migration count) against the live apps, and flags any public repo that has fallen behind its app's releases. The next morning a scheduled Claude
+            agent reads the result and reports to me in the Claude app: a one-line all-clear when everything
+            matches, or what drifted and the exact refresh steps, which I approve before anything is published.
           </p>
         </details>
         <div class="card-footer">
-          <a class="card-link" href="https://github.com/johnmfritsch/pingpong-scorekeeper" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
+          <a class="card-link" href="https://github.com/johnmfritsch/portfolio" target="_blank" rel="noopener noreferrer">View on GitHub →</a>
         </div>
       </div>
 
