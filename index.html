@@ -140,6 +140,8 @@
       flex-direction: column;
     }
     .card:hover { border-color: #2d7dd2; transform: translateY(-2px); }
+    .project-grid > .card { scroll-margin-top: 1rem; }
+    .project-grid > .card:target { border-color: #2d7dd2; box-shadow: 0 0 0 2px rgba(45, 125, 210, 0.35); }
     .card-footer {
       margin-top: auto;
       padding-top: 1rem;
@@ -418,10 +420,192 @@
     <a href="https://www.linkedin.com/in/johnmfritsch/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
     <a href="tel:6107513357">610.751.3357</a>
   </div>
-  <nav class="jump" aria-label="Sections"><a href="#projects">Projects</a>·<a href="#home-lab">Home lab</a>·<a href="#skills">Skills</a>·<a href="#experience">Experience</a></nav>
+  <nav class="jump" aria-label="Sections"><a href="#home-lab">Home lab</a>·<a href="#projects">Projects</a>·<a href="#skills">Skills</a>·<a href="#experience">Experience</a></nav>
 </header>
 
 <main>
+
+  <!-- HOME LAB -->
+  <section id="home-lab">
+    <h2>Home Lab Architecture</h2>
+    <p class="section-note">
+      The web apps below run on a single ASUSTOR NAS that serves real users from the internet, and I run
+      it the way I'd run production at work: TLS everywhere, separate dev and prod environments, scripted
+      releases, health checks with alerts to my phone, and offsite backup. The desktop apps run on my
+      Windows PC. This portfolio page is served by GitHub Pages.
+      <strong>Select an app in the diagram to jump to its project.</strong>
+    </p>
+    <div class="arch">
+      <svg class="arch-svg" viewBox="0 0 1000 610" role="group" aria-labelledby="archTitle archDesc" xmlns="http://www.w3.org/2000/svg">
+        <title id="archTitle">Home lab architecture</title>
+        <desc id="archDesc">Internet users reach the NAS through dynamic DNS and an Eero router that forwards one high port per app. On the NAS, GardenBuddy, JobSearch and BorrowBuddy each run as Flask and Gunicorn with their own TLS, a prod and a dev instance, and their own SQLite database. A custom Nginx routes LAN traffic on port 443; Docker runs Tautulli and a Playwright worker; Plex serves media. Operations include a boot hook that restarts every app, a watchdog that health-checks every app, restarts a hung one and sends Pushbullet alerts, and scripted dev-to-prod releases. A Windows PC on the home network runs the desktop apps, PingPong Scorekeeper and Plexifier, which converts media on the NAS share. The NAS backs up nightly to IDrive and publishes curated source to GitHub, which also hosts this portfolio. Each app box links to its project below.</desc>
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#2d7dd2"/>
+          </marker>
+        </defs>
+        <style>
+          .box { fill: #1a1f2e; stroke: #2d3748; stroke-width: 1.5; }
+          .box-app { fill: #17233a; stroke: #2d7dd2; stroke-width: 1.5; }
+          .nas { fill: #0f1117; stroke: #2d7dd2; stroke-width: 2; }
+          .t { fill: #f0f4f8; font: 600 15px -apple-system, "Segoe UI", Roboto, sans-serif; }
+          .s { fill: #94a3b8; font: 12.5px -apple-system, "Segoe UI", Roboto, sans-serif; }
+          .lbl { fill: #2d7dd2; font: 600 11.5px -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
+          .mono { fill: #cbd5e1; font: 12px Consolas, Menlo, monospace; }
+          .flow { fill: none; stroke: #2d7dd2; stroke-width: 1.8; }
+          .flow-d { fill: none; stroke: #64748b; stroke-width: 1.6; stroke-dasharray: 5 4; }
+          .note { fill: #64748b; font: italic 11.5px -apple-system, "Segoe UI", Roboto, sans-serif; }
+          .go { fill: #2d7dd2; font: 600 14px -apple-system, "Segoe UI", Roboto, sans-serif; }
+          .app-link { cursor: pointer; }
+          .app-link .box-app { transition: fill 0.15s, stroke 0.15s; }
+          .app-link:hover .box-app, .app-link:focus-visible .box-app { fill: #1e3a5f; stroke: #60a5fa; }
+          .app-link:focus { outline: none; }
+          .app-link:focus-visible .box-app { stroke-width: 2.5; }
+        </style>
+
+        <!-- Users -->
+        <text class="lbl" x="20" y="44">Users</text>
+        <rect class="box" x="20" y="56" width="180" height="78" rx="8"/>
+        <text class="t" x="34" y="86">Internet users</text>
+        <text class="s" x="34" y="108">phones &amp; browsers</text>
+        <text class="s" x="34" y="125">(apps install as PWAs)</text>
+        <rect class="box" x="20" y="300" width="180" height="70" rx="8"/>
+        <text class="t" x="34" y="330">Home network</text>
+        <text class="s" x="34" y="352">LAN devices</text>
+
+        <!-- Edge -->
+        <text class="lbl" x="235" y="44">Edge</text>
+        <rect class="box" x="235" y="56" width="195" height="78" rx="8"/>
+        <text class="t" x="249" y="86">Dynamic DNS</text>
+        <text class="mono" x="249" y="110">fritsch-nas.</text>
+        <text class="mono" x="249" y="126">myasustor.com</text>
+        <rect class="box" x="235" y="160" width="195" height="100" rx="8"/>
+        <text class="t" x="249" y="190">Eero router</text>
+        <text class="s" x="249" y="212">forwards one high port</text>
+        <text class="s" x="249" y="229">per app (inbound 80 and</text>
+        <text class="s" x="249" y="246">443 are blocked)</text>
+
+        <path class="flow" d="M200,95 L232,95" marker-end="url(#arrow)"/>
+        <path class="flow" d="M200,120 C218,120 214,205 232,205" marker-end="url(#arrow)"/>
+        <path class="flow" d="M430,205 L470,205 L470,140 L478,140" marker-end="url(#arrow)"/>
+
+        <!-- NAS -->
+        <rect class="nas" x="462" y="14" width="526" height="474" rx="12"/>
+        <text class="t" x="480" y="42">ASUSTOR AS5202T NAS</text>
+        <text class="s" x="480" y="61">16 GB RAM · 7.3 TB volume · Linux (ADM)</text>
+
+        <text class="lbl" x="480" y="90">Web apps · Flask + Gunicorn · TLS per app</text>
+        <a class="app-link" href="#gardenbuddy" aria-label="GardenBuddy: jump to project">
+          <rect class="box-app" x="480" y="100" width="157" height="96" rx="8"/>
+          <text class="t" x="493" y="127">GardenBuddy</text>
+          <text class="go" x="622" y="127" text-anchor="end">↓</text>
+          <text class="mono" x="493" y="150">prod :7783</text>
+          <text class="mono" x="493" y="167">dev  :7784</text>
+          <text class="s" x="493" y="186">SQLite · 100+ migrations</text>
+        </a>
+        <a class="app-link" href="#jobsearch" aria-label="JobSearch: jump to project">
+          <rect class="box-app" x="649" y="100" width="157" height="96" rx="8"/>
+          <text class="t" x="662" y="127">JobSearch</text>
+          <text class="go" x="791" y="127" text-anchor="end">↓</text>
+          <text class="mono" x="662" y="150">prod :7787</text>
+          <text class="mono" x="662" y="167">dev  :7788</text>
+          <text class="s" x="662" y="186">SQLite · detached jobs</text>
+        </a>
+        <a class="app-link" href="#borrowbuddy" aria-label="BorrowBuddy: jump to project">
+          <rect class="box-app" x="818" y="100" width="157" height="96" rx="8"/>
+          <text class="t" x="831" y="127">BorrowBuddy</text>
+          <text class="go" x="960" y="127" text-anchor="end">↓</text>
+          <text class="mono" x="831" y="150">prod :7781</text>
+          <text class="mono" x="831" y="167">dev  :7782</text>
+          <text class="s" x="831" y="186">SQLite · item photos</text>
+        </a>
+
+        <text class="lbl" x="480" y="226">Platform services</text>
+        <rect class="box" x="480" y="236" width="157" height="72" rx="8"/>
+        <text class="t" x="493" y="263">Custom Nginx</text>
+        <text class="s" x="493" y="284">:443 LAN path routing</text>
+        <text class="s" x="493" y="300">to dev environments</text>
+        <rect class="box" x="649" y="236" width="157" height="72" rx="8"/>
+        <text class="t" x="662" y="263">Docker</text>
+        <text class="s" x="662" y="284">Tautulli · Playwright</text>
+        <text class="s" x="662" y="300">application worker</text>
+        <rect class="box" x="818" y="236" width="157" height="72" rx="8"/>
+        <text class="t" x="831" y="263">Plex Media Server</text>
+        <text class="s" x="831" y="284">library prepared by</text>
+        <text class="s" x="831" y="300">Plexifier for Direct Play</text>
+
+        <text class="lbl" x="480" y="338">Operations</text>
+        <rect class="box" x="480" y="348" width="157" height="124" rx="8"/>
+        <text class="t" x="493" y="374">Boot persistence</text>
+        <text class="s" x="493" y="396">init hook restarts every</text>
+        <text class="s" x="493" y="413">app after reboots and</text>
+        <text class="s" x="493" y="430">firmware updates; waits</text>
+        <text class="s" x="493" y="447">for TLS certs first</text>
+        <rect class="box" x="649" y="348" width="157" height="124" rx="8"/>
+        <text class="t" x="662" y="374">Health watchdog</text>
+        <text class="s" x="662" y="396">every 5 min, each app:</text>
+        <text class="s" x="662" y="413">health probes, auto-</text>
+        <text class="s" x="662" y="430">restart, Pushbullet</text>
+        <text class="s" x="662" y="447">alerts to my phone</text>
+        <rect class="box" x="818" y="348" width="157" height="124" rx="8"/>
+        <text class="t" x="831" y="374">Scripted releases</text>
+        <text class="s" x="831" y="396">dev → prod deploy:</text>
+        <text class="s" x="831" y="413">backup, migrations,</text>
+        <text class="s" x="831" y="430">health-gated restart,</text>
+        <text class="s" x="831" y="447">stamped release notes</text>
+
+        <path class="flow" d="M200,335 L440,335 L440,272 L476,272" marker-end="url(#arrow)"/>
+
+        <!-- Off-box -->
+        <text class="lbl" x="480" y="526">Off the box</text>
+        <rect class="box" x="480" y="536" width="240" height="64" rx="8"/>
+        <text class="t" x="494" y="563">IDrive</text>
+        <text class="s" x="494" y="584">nightly offsite backup</text>
+        <rect class="box" x="735" y="536" width="240" height="64" rx="8"/>
+        <text class="t" x="749" y="563">GitHub</text>
+        <text class="s" x="749" y="584">curated, leak-audited source · this page</text>
+        <path class="flow-d" d="M600,488 L600,532" marker-end="url(#arrow)"/>
+        <path class="flow-d" d="M855,488 L855,532" marker-end="url(#arrow)"/>
+
+        <!-- Windows PC -->
+        <text class="lbl" x="20" y="402">Desktop apps</text>
+        <rect class="box" x="20" y="412" width="410" height="116" rx="8"/>
+        <text class="t" x="34" y="438">Windows PC</text>
+        <a class="app-link" href="#pingpong" aria-label="PingPong Scorekeeper: jump to project">
+          <rect class="box-app" x="34" y="452" width="212" height="62" rx="8"/>
+          <text class="t" x="46" y="477">PingPong Scorekeeper</text>
+          <text class="go" x="234" y="477" text-anchor="end">↓</text>
+          <text class="s" x="46" y="499">stats in Google Sheets</text>
+        </a>
+        <a class="app-link" href="#plexifier" aria-label="Plexifier: jump to project">
+          <rect class="box-app" x="258" y="452" width="158" height="62" rx="8"/>
+          <text class="t" x="270" y="477">Plexifier</text>
+          <text class="go" x="404" y="477" text-anchor="end">↓</text>
+          <text class="s" x="270" y="499">converts Plex media</text>
+        </a>
+        <path class="flow-d" d="M416,470 L458,470" marker-end="url(#arrow)"/>
+
+        <text class="note" x="20" y="572">Solid: user traffic</text>
+        <text class="note" x="20" y="592">Dashed: backup, publishing, file share</text>
+      </svg>
+    </div>
+    <details class="card-details arch-details">
+      <summary>Design decisions</summary>
+      <p>
+        The router blocks inbound 80/443, so each externally reachable app terminates its own TLS on a
+        dedicated forwarded port instead of sharing one proxy. A custom Nginx instance path-routes LAN traffic
+        on 443 alongside the NAS vendor's own proxy without colliding with it. Boot-time persistence (app
+        auto-start, kernel tuning) survives vendor firmware updates through a root-level init hook rather than
+        config files the firmware rebuilds on every boot, and every SSL app waits for the certificate to exist
+        before it starts, which fixed a boot-order race that once left apps down after a reboot. Public code
+        on GitHub is a curated export: an allowlist build, an automated scrub for credentials and private
+        addresses, and an audit of the published copy after every push.
+      </p>
+    </details>
+    <div class="card-footer">
+      <a class="card-link" href="https://github.com/johnmfritsch/home-lab" target="_blank" rel="noopener noreferrer">Home-lab scripts on GitHub →</a>
+    </div>
+  </section>
 
   <!-- PROJECTS -->
   <section id="projects">
@@ -434,7 +618,7 @@
     </p>
     <div class="project-grid">
 
-      <div class="card card--flagship card--wide">
+      <div class="card card--flagship card--wide" id="gardenbuddy">
         <div class="card-header">
           <div class="card-icon">🌿</div>
           <div>
@@ -466,6 +650,7 @@
           <span class="tag">Gunicorn</span>
           <span class="tag">PWA</span>
           <span class="tag">Google Photos API</span>
+          <span class="tag">Pushbullet</span>
           <span class="tag">SSL / HTTPS</span>
           <span class="tag">Self-hosted</span>
         </div>
@@ -479,7 +664,8 @@
             requests for days before anyone noticed. The data model has evolved through 100+ numbered schema
             migrations as real usage uncovered new needs. Dev and prod run as parity-matched environments with
             a scripted deploy that backs up prod, applies migrations, health-checks the restart, and stamps the
-            release notes. Every change is written to an audit log.
+            release notes. Every change is written to an audit log. New feedback, and a Google Photos link
+            that needs re-authorizing, reach my phone as Pushbullet push notifications.
           </p>
         </details>
         <div class="card-footer">
@@ -488,7 +674,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="jobsearch">
         <div class="card-header">
           <div class="card-icon">🔍</div>
           <div>
@@ -533,7 +719,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="plexifier">
         <div class="card-header">
           <div class="card-icon">🎬</div>
           <div>
@@ -573,7 +759,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="borrowbuddy">
         <div class="card-header">
           <div class="card-icon">📚</div>
           <div>
@@ -609,7 +795,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="pingpong">
         <div class="card-header">
           <div class="card-icon">🏓</div>
           <div>
@@ -617,11 +803,13 @@
             <h3>PingPong Scorekeeper</h3>
           </div>
         </div>
-        <p class="pr"><span class="pr-label">Problem</span>Keeping score by hand in fast family table-tennis
-          games led to arguments, and the results were never kept anywhere.</p>
-        <p class="pr"><span class="pr-label">Result</span>A scoring app that calls the score aloud, supports
-          House and official ITTF rules, can undo any point, and saves every game to Google Sheets
-          automatically.</p>
+        <p class="pr"><span class="pr-label">Problem</span>Like bowling before automatic scoring, table tennis
+          at home ran on memory: the players had to keep the score and whose serve it was in their heads, and
+          once a game ended the result was gone, so there was no record of who was winning over time.</p>
+        <p class="pr"><span class="pr-label">Result</span>A scoring app that tracks the score and the serve
+          and calls both aloud, supports House and official ITTF rules, and can undo any point. Every game is
+          saved to Google Sheets automatically, building a running history of records, milestones and
+          streaks.</p>
         <div class="shots">
           <figure class="shot"><a href="assets/shots/pp-scoreboard.webp" target="_blank" rel="noopener"><img src="assets/shots/pp-scoreboard.webp" alt="PingPong Scorekeeper scoreboard with each player's score, the current server, timeouts, a table graphic showing the serving side, and the reigning champion" loading="lazy" width="1400" height="711"></a><figcaption>Live scoreboard</figcaption></figure>
           <figure class="shot"><a href="assets/shots/pp-setup.webp" target="_blank" rel="noopener"><img src="assets/shots/pp-setup.webp" alt="Game setup screen with player name pickers, first server, House or ITTF rules, and Stats, Settings and What's New buttons" loading="lazy" width="680" height="500"></a><figcaption>Game setup: House or ITTF rules</figcaption></figure>
@@ -651,154 +839,6 @@
 
     </div>
   </section>
-
-  <!-- HOME LAB -->
-  <section id="home-lab">
-    <h2>Home Lab Architecture</h2>
-    <p class="section-note">
-      Every project above runs on this. A single ASUSTOR NAS serves real users from the internet, and I run
-      it the way I'd run production at work: TLS everywhere, separate dev and prod environments, scripted
-      releases, health checks, and offsite backup. This portfolio page is served by GitHub Pages.
-    </p>
-    <div class="arch">
-      <svg class="arch-svg" viewBox="0 0 1000 610" role="img" aria-labelledby="archTitle archDesc" xmlns="http://www.w3.org/2000/svg">
-        <title id="archTitle">Home lab architecture</title>
-        <desc id="archDesc">Internet users reach the NAS through dynamic DNS and an Eero router that forwards one high port per app. On the NAS, GardenBuddy, JobSearch and BorrowBuddy each run as Flask and Gunicorn with their own TLS, a prod and a dev instance, and their own SQLite database. A custom Nginx routes LAN traffic on port 443; Docker runs Tautulli and a Playwright worker; Plex serves media. Operations include a boot hook that restarts every app, a health watchdog, and scripted dev-to-prod releases. The NAS backs up nightly to IDrive and publishes curated source to GitHub, which also hosts this portfolio.</desc>
-        <defs>
-          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-            <path d="M0,0 L10,5 L0,10 z" fill="#2d7dd2"/>
-          </marker>
-        </defs>
-        <style>
-          .box { fill: #1a1f2e; stroke: #2d3748; stroke-width: 1.5; }
-          .box-app { fill: #17233a; stroke: #2d7dd2; stroke-width: 1.5; }
-          .nas { fill: #0f1117; stroke: #2d7dd2; stroke-width: 2; }
-          .t { fill: #f0f4f8; font: 600 15px -apple-system, "Segoe UI", Roboto, sans-serif; }
-          .s { fill: #94a3b8; font: 12.5px -apple-system, "Segoe UI", Roboto, sans-serif; }
-          .lbl { fill: #2d7dd2; font: 600 11.5px -apple-system, "Segoe UI", Roboto, sans-serif; letter-spacing: .08em; text-transform: uppercase; }
-          .mono { fill: #cbd5e1; font: 12px Consolas, Menlo, monospace; }
-          .flow { fill: none; stroke: #2d7dd2; stroke-width: 1.8; }
-          .flow-d { fill: none; stroke: #64748b; stroke-width: 1.6; stroke-dasharray: 5 4; }
-          .note { fill: #64748b; font: italic 11.5px -apple-system, "Segoe UI", Roboto, sans-serif; }
-        </style>
-
-        <!-- Users -->
-        <text class="lbl" x="20" y="44">Users</text>
-        <rect class="box" x="20" y="56" width="180" height="78" rx="8"/>
-        <text class="t" x="34" y="86">Internet users</text>
-        <text class="s" x="34" y="108">phones &amp; browsers</text>
-        <text class="s" x="34" y="125">(apps install as PWAs)</text>
-        <rect class="box" x="20" y="300" width="180" height="70" rx="8"/>
-        <text class="t" x="34" y="330">Home network</text>
-        <text class="s" x="34" y="352">LAN devices</text>
-
-        <!-- Edge -->
-        <text class="lbl" x="235" y="44">Edge</text>
-        <rect class="box" x="235" y="56" width="195" height="78" rx="8"/>
-        <text class="t" x="249" y="86">Dynamic DNS</text>
-        <text class="mono" x="249" y="110">fritsch-nas.</text>
-        <text class="mono" x="249" y="126">myasustor.com</text>
-        <rect class="box" x="235" y="160" width="195" height="100" rx="8"/>
-        <text class="t" x="249" y="190">Eero router</text>
-        <text class="s" x="249" y="212">forwards one high port</text>
-        <text class="s" x="249" y="229">per app (inbound 80 and</text>
-        <text class="s" x="249" y="246">443 are blocked)</text>
-
-        <path class="flow" d="M200,95 L232,95" marker-end="url(#arrow)"/>
-        <path class="flow" d="M200,120 C218,120 214,205 232,205" marker-end="url(#arrow)"/>
-        <path class="flow" d="M430,205 L470,205 L470,140 L478,140" marker-end="url(#arrow)"/>
-
-        <!-- NAS -->
-        <rect class="nas" x="462" y="14" width="526" height="474" rx="12"/>
-        <text class="t" x="480" y="42">ASUSTOR AS5202T NAS</text>
-        <text class="s" x="480" y="61">16 GB RAM · 7.3 TB volume · Linux (ADM)</text>
-
-        <text class="lbl" x="480" y="90">Web apps · Flask + Gunicorn · TLS per app</text>
-        <rect class="box-app" x="480" y="100" width="157" height="96" rx="8"/>
-        <text class="t" x="493" y="127">GardenBuddy</text>
-        <text class="mono" x="493" y="150">prod :7783</text>
-        <text class="mono" x="493" y="167">dev  :7784</text>
-        <text class="s" x="493" y="186">SQLite · 100+ migrations</text>
-        <rect class="box-app" x="649" y="100" width="157" height="96" rx="8"/>
-        <text class="t" x="662" y="127">JobSearch</text>
-        <text class="mono" x="662" y="150">prod :7787</text>
-        <text class="mono" x="662" y="167">dev  :7788</text>
-        <text class="s" x="662" y="186">SQLite · detached jobs</text>
-        <rect class="box-app" x="818" y="100" width="157" height="96" rx="8"/>
-        <text class="t" x="831" y="127">BorrowBuddy</text>
-        <text class="mono" x="831" y="150">prod :7781</text>
-        <text class="mono" x="831" y="167">dev  :7782</text>
-        <text class="s" x="831" y="186">SQLite · item photos</text>
-
-        <text class="lbl" x="480" y="226">Platform services</text>
-        <rect class="box" x="480" y="236" width="157" height="72" rx="8"/>
-        <text class="t" x="493" y="263">Custom Nginx</text>
-        <text class="s" x="493" y="284">:443 LAN path routing</text>
-        <text class="s" x="493" y="300">to dev environments</text>
-        <rect class="box" x="649" y="236" width="157" height="72" rx="8"/>
-        <text class="t" x="662" y="263">Docker</text>
-        <text class="s" x="662" y="284">Tautulli · Playwright</text>
-        <text class="s" x="662" y="300">application worker</text>
-        <rect class="box" x="818" y="236" width="157" height="72" rx="8"/>
-        <text class="t" x="831" y="263">Plex Media Server</text>
-        <text class="s" x="831" y="284">library prepared by</text>
-        <text class="s" x="831" y="300">Plexifier for Direct Play</text>
-
-        <text class="lbl" x="480" y="338">Operations</text>
-        <rect class="box" x="480" y="348" width="157" height="124" rx="8"/>
-        <text class="t" x="493" y="374">Boot persistence</text>
-        <text class="s" x="493" y="396">init hook restarts every</text>
-        <text class="s" x="493" y="413">app after reboots and</text>
-        <text class="s" x="493" y="430">firmware updates; waits</text>
-        <text class="s" x="493" y="447">for TLS certs first</text>
-        <rect class="box" x="649" y="348" width="157" height="124" rx="8"/>
-        <text class="t" x="662" y="374">Health watchdog</text>
-        <text class="s" x="662" y="396">cron health check</text>
-        <text class="s" x="662" y="413">recycles a wedged</text>
-        <text class="s" x="662" y="430">GardenBuddy worker;</text>
-        <text class="s" x="662" y="447">memory monitoring</text>
-        <rect class="box" x="818" y="348" width="157" height="124" rx="8"/>
-        <text class="t" x="831" y="374">Scripted releases</text>
-        <text class="s" x="831" y="396">dev → prod deploy:</text>
-        <text class="s" x="831" y="413">backup, migrations,</text>
-        <text class="s" x="831" y="430">health-gated restart,</text>
-        <text class="s" x="831" y="447">stamped release notes</text>
-
-        <path class="flow" d="M200,335 L440,335 L440,272 L476,272" marker-end="url(#arrow)"/>
-
-        <!-- Off-box -->
-        <text class="lbl" x="480" y="526">Off the box</text>
-        <rect class="box" x="480" y="536" width="240" height="64" rx="8"/>
-        <text class="t" x="494" y="563">IDrive</text>
-        <text class="s" x="494" y="584">nightly offsite backup</text>
-        <rect class="box" x="735" y="536" width="240" height="64" rx="8"/>
-        <text class="t" x="749" y="563">GitHub</text>
-        <text class="s" x="749" y="584">curated, leak-audited source · this page</text>
-        <path class="flow-d" d="M600,488 L600,532" marker-end="url(#arrow)"/>
-        <path class="flow-d" d="M855,488 L855,532" marker-end="url(#arrow)"/>
-
-        <text class="note" x="20" y="560">Solid: user traffic</text>
-        <text class="note" x="20" y="580">Dashed: backup and publishing</text>
-      </svg>
-    </div>
-    <details class="card-details arch-details">
-      <summary>Design decisions</summary>
-      <p>
-        The router blocks inbound 80/443, so each externally reachable app terminates its own TLS on a
-        dedicated forwarded port instead of sharing one proxy. A custom Nginx instance path-routes LAN traffic
-        on 443 alongside the NAS vendor's own proxy without colliding with it. Boot-time persistence (app
-        auto-start, kernel tuning) survives vendor firmware updates through a root-level init hook rather than
-        config files the firmware rebuilds on every boot, and every SSL app waits for the certificate to exist
-        before it starts, which fixed a boot-order race that once left apps down after a reboot. Public code
-        on GitHub is a curated export: an allowlist build, an automated scrub for credentials and private
-        addresses, and an audit of the published copy after every push.
-      </p>
-    </details>
-    <div class="card-footer">
-      <a class="card-link" href="https://github.com/johnmfritsch/home-lab" target="_blank" rel="noopener noreferrer">Home-lab scripts on GitHub →</a>
-    </div>
-  </section>
-
 
   <!-- SKILLS -->
   <section id="skills">
